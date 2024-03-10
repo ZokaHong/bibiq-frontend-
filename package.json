@@ -1,5 +1,5 @@
 {
-  "name": "bibiq-frontend",
+  "name": "bibiq",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -9,6 +9,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@element-plus/icons-vue": "^2.3.1",
+    "element-plus": "^2.6.0",
     "vue": "^3.4.19"
   },
   "devDependencies": {
