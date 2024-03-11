@@ -29,19 +29,19 @@ const drawer = ref(false);
             <img class="logo" src="../assets/vue.svg" alt="" />
           </div>
         </el-col>
-        <el-col :xs="8" :span="2"
+        <el-col :xs="8" :span="3"
           ><div class="grid-content">
             <h3>bibi-Q</h3>
           </div>
         </el-col>
-        <el-col :xs="0" :span="12" :offset="6">
+        <el-col :xs="0" :span="12" :offset="5">
           <el-row class="toolsMenu">
             <el-col :span="9"
               ><div class="grid-content">
                 <el-input
                   type="text"
                   v-model="searchInput"
-                  style="width: 150px"
+                  style="width: 70%"
                   placeholder="Search"
                 />
                 <el-button style="width: 30px; margin-left: 10px" text>
@@ -58,7 +58,7 @@ const drawer = ref(false);
             </el-col>
             <el-col :span="5">
               <div class="grid-content">
-                <el-button style="width: 120px" text>
+                <el-button style="width: 100%" text>
                   <el-avatar
                     :icon="UserFilled"
                     style="width: 25px; height: 25px; margin-right: 10px"
@@ -67,9 +67,9 @@ const drawer = ref(false);
                 </el-button>
               </div>
             </el-col>
-            <el-col :span="6" :offset="1">
+            <el-col :span="7">
               <el-dropdown trigger="click">
-                <span style="width: 150px; display: flex; align-items: center">
+                <span style="width: 100%; display: flex; align-items: center">
                   <img
                     src="../assets/globe-icon-96x96-6gmgebx3.png"
                     width="25px"
@@ -97,7 +97,7 @@ const drawer = ref(false);
             </el-col>
           </el-row>
         </el-col>
-        <el-col :xs="{ span: 4, offset: 8 }" :md="0">
+        <el-col :xs="{ span: 4, offset: 8 }" :sm="0">
           <!-- <el-dropdown trigger="click">
             <el-icon :size="30"><Menu /></el-icon>
             <template #dropdown>
@@ -128,7 +128,7 @@ const drawer = ref(false);
               <el-input
                 type="text"
                 v-model="searchInput"
-                style="width: 200px"
+                style="width: 50%"
                 placeholder="Search"
               />
               <el-button style="width: 30px;" text>
