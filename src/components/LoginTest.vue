@@ -8,11 +8,7 @@ const inputPassword = ref("");
   <el-container direction="vertical">
     <el-main>
       <el-row>
-        <!-- :xs <768px
-             :sm ≥768px
-             :md ≥992px
-             :lg ≥1200px
-             :xl ≥1920px -->
+       
         <el-col
           :xs="{ span: 24, offset: 0 }"
           :sm="{ span: 12, offset: 6 }"
