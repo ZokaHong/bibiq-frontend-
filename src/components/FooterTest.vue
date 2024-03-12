@@ -10,9 +10,9 @@ const socials = ref([
 <template>
   <el-footer>
     <el-row class="footer-row">
-      <a class="backBar" href="#">
+      <el-link class="backBar" href="#">
         <span>回頁首</span>
-      </a>
+      </el-link>
       <el-col :xs="12" :md="8"><span>聯絡我們</span></el-col>
       <el-col :xs="12" :md="8"><span>@ Copyright</span></el-col>
       <el-col :xs="{ span: 12, offset: 12 }" :md="8">
@@ -30,8 +30,9 @@ const socials = ref([
 </template>
 <style scoped>
 .el-footer {
-  background-color: rgba(256, 256, 256, 0.8);
+  background-color: rgb(139, 197, 197);
   color: black;
+  margin-top: 100px;
 }
 .el-row {
   height: 100%;
@@ -54,12 +55,11 @@ const socials = ref([
 .backBar {
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: end;
   width: 20%;
   height: 150%;
   color: black;
-  background-color: rgba(256, 256, 256, 0.8);
-
+  background-color: rgb(139, 197, 197);
   position: absolute;
   top: -150%;
   left: 40%;
@@ -67,8 +67,6 @@ const socials = ref([
   z-index: 2;
 }
 .backBar span {
-  position: relative;
-  top: 30%;
   letter-spacing: 5px;
   font: 700 24px Helvetica;
 }
@@ -78,9 +76,10 @@ const socials = ref([
     left: 20%;
   }
   .backBar span {
-    top: 25%;
     letter-spacing: 3px;
     font: 700 18px Helvetica;
+    position: relative;
+    top: -10px;
   }
 }
 </style>

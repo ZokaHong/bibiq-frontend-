@@ -31,7 +31,7 @@ const drawer = ref(false);
         </el-col>
         <el-col :xs="8" :span="3"
           ><div class="grid-content">
-            <h3>bibi-Q</h3>
+            <h3 style="user-select: none">bibi-Q</h3>
           </div>
         </el-col>
         <el-col :xs="0" :span="12" :offset="5">
@@ -45,7 +45,9 @@ const drawer = ref(false);
                   placeholder="Search"
                 />
                 <el-button style="width: 30px; margin-left: 10px" text>
-                  <el-icon size="25px" style="margin-left: 5px;"><Search /></el-icon>
+                  <el-icon size="25px" style="margin-left: 5px"
+                    ><Search
+                  /></el-icon>
                 </el-button>
               </div>
             </el-col>
@@ -68,8 +70,15 @@ const drawer = ref(false);
               </div>
             </el-col>
             <el-col :span="7">
-              <el-dropdown trigger="click">
-                <span style="width: 100%; display: flex; align-items: center">
+              <el-dropdown trigger="click" class="dropdown-box">
+                <span
+                  style="
+                    width: 100%;
+                    display: flex;
+                    align-items: center;
+                    user-select: none;
+                  "
+                >
                   <img
                     src="../assets/globe-icon-96x96-6gmgebx3.png"
                     width="25px"
@@ -121,7 +130,7 @@ const drawer = ref(false);
           </div>
           <el-drawer v-model="drawer" size="75%">
             <template #header>
-              <h3 style="text-align: left; margin: 20px;">bibi-Q</h3>
+              <h3 style="text-align: left; margin: 20px">bibi-Q</h3>
             </template>
 
             <div class="search-input-rwd">
@@ -131,7 +140,7 @@ const drawer = ref(false);
                 style="width: 50%"
                 placeholder="Search"
               />
-              <el-button style="width: 30px;" text>
+              <el-button style="width: 30px" text>
                 <el-icon size="25px"><Search /></el-icon>
               </el-button>
             </div>
@@ -191,8 +200,8 @@ const drawer = ref(false);
   </el-container>
 </template>
 <style scoped>
-.el-header{
-  padding:0;
+.el-header {
+  padding: 0;
 }
 .el-row {
   color: #000000;
@@ -204,11 +213,18 @@ const drawer = ref(false);
 .toolsMenu {
   align-items: center;
 }
+.dropdown-box {
+  padding: 4px 12px;
+}
+.dropdown-box:hover {
+  border-radius: 5px;
+  background-color: rgba(255, 254, 254, 0.973);
+}
 
 .drawer-row .el-col {
   margin: 10px 0;
 }
-.search-input-rwd{
+.search-input-rwd {
   display: flex;
   padding: 0 20px;
   justify-content: space-between;
