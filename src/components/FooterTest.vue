@@ -30,7 +30,7 @@ const socials = ref([
 </template>
 <style scoped>
 .el-footer {
-  background-color: rgb(139, 197, 197);
+  background-color: rgba(109, 179, 175, 0.7);
   color: black;
   margin-top: 100px;
 }
@@ -59,7 +59,7 @@ const socials = ref([
   width: 20%;
   height: 150%;
   color: black;
-  background-color: rgb(139, 197, 197);
+  background-color: rgba(109, 179, 175, 0.7);
   position: absolute;
   top: -150%;
   left: 40%;

@@ -17,78 +17,75 @@ const languageList = {
 function changeLanguage(item) {
   language.value = item;
 }
-
+const languageList1 = ref([
+  { language: "繁體中文" },
+  { language: "简体中文" },
+  { language: "English" },
+  { language: "日本語" },
+]);
 const drawer = ref(false);
 </script>
 <template>
   <el-container>
     <el-header>
       <el-row class="nav-box" :gutter="10">
-        <el-col :span="4"
-          ><div class="grid-content">
-            <img class="logo" src="../assets/vue.svg" alt="" />
-          </div>
+        <el-col :xs="8" :span="6">
+          <el-row>
+            <el-col :span="8" class="logo-col">
+              <img class="logo" src="../assets/vue.svg" alt="" />
+            </el-col>
+            <el-col :span="16" class="title-col">
+              <h3 style="user-select: none">bibi-Q</h3>
+            </el-col>
+          </el-row>
         </el-col>
-        <el-col :xs="8" :span="3"
-          ><div class="grid-content">
-            <h3 style="user-select: none">bibi-Q</h3>
-          </div>
-        </el-col>
-        <el-col :xs="0" :span="12" :offset="5">
+        <el-col :xs="0" :span="12" :offset="6">
           <el-row class="toolsMenu">
-            <el-col :span="9"
-              ><div class="grid-content">
-                <el-input
-                  type="text"
-                  v-model="searchInput"
-                  style="width: 70%"
-                  placeholder="Search"
+            <el-col :span="9">
+              <el-input
+                type="text"
+                v-model="searchInput"
+                style="width: 60%"
+                placeholder="Search"
+              />
+              <el-button style="width: 35px; margin-left: 10px" text>
+                <el-icon size="25px"><Search /></el-icon>
+              </el-button>
+            </el-col>
+            <el-col :span="2">
+              <el-button style="width: 35px" text>
+                <el-icon size="25px"><ShoppingCart /></el-icon>
+              </el-button>
+            </el-col>
+            <el-col :span="6">
+              <el-button style="width: 60%" text>
+                <el-avatar
+                  :icon="UserFilled"
+                  style="width: 25px; height: 25px; margin-right: 10px"
                 />
-                <el-button style="width: 30px; margin-left: 10px" text>
-                  <el-icon size="25px" style="margin-left: 5px"
-                    ><Search
-                  /></el-icon>
-                </el-button>
-              </div>
-            </el-col>
-            <el-col :span="3">
-              <div class="grid-content">
-                <el-button style="width: 30px" text>
-                  <el-icon size="25px"><ShoppingCart /></el-icon>
-                </el-button>
-              </div>
-            </el-col>
-            <el-col :span="5">
-              <div class="grid-content">
-                <el-button style="width: 100%" text>
-                  <el-avatar
-                    :icon="UserFilled"
-                    style="width: 25px; height: 25px; margin-right: 10px"
-                  />
-                  <span>登入/註冊</span>
-                </el-button>
-              </div>
+                <span>登入/註冊</span>
+              </el-button>
             </el-col>
             <el-col :span="7">
               <el-dropdown trigger="click" class="dropdown-box">
-                <span
-                  style="
-                    width: 100%;
-                    display: flex;
-                    align-items: center;
-                    user-select: none;
-                  "
+                <div
+                  style="display: flex; align-items: center; user-select: none"
                 >
                   <img
                     src="../assets/globe-icon-96x96-6gmgebx3.png"
-                    width="25px"
-                    alt=""
+                    width="22px"
+                    alt="globel"
                   />
-                  <span style="margin-left: 20px">{{ language }}</span>
-                </span>
+                  <span style="margin-left: 10px">{{ language }}</span>
+                </div>
                 <template #dropdown>
                   <el-dropdown-menu>
-                    <el-dropdown-item @click="language = languageList.language1"
+                    <el-dropdown-item
+                      v-for="item in languageList1"
+                      @click="language = item.language"
+                      >{{ item.language }}</el-dropdown-item
+                    >
+                    <!-- <el-dropdown-item @click="language = languageList.language1"
                       >繁體中文</el-dropdown-item
                     >
                     <el-dropdown-item @click="language = languageList.language2"
@@ -99,32 +96,14 @@ const drawer = ref(false);
                     >
                     <el-dropdown-item @click="language = languageList.language4"
                       >日本語</el-dropdown-item
-                    >
+                    > -->
                   </el-dropdown-menu>
                 </template>
               </el-dropdown>
             </el-col>
           </el-row>
         </el-col>
-        <el-col :xs="{ span: 4, offset: 8 }" :sm="0">
-          <!-- <el-dropdown trigger="click">
-            <el-icon :size="30"><Menu /></el-icon>
-            <template #dropdown>
-              <el-dropdown-menu>
-                <el-dropdown-item>
-                  <el-icon size="24px"><ShoppingCart /></el-icon>
-                  <span>購物車</span>
-                </el-dropdown-item>
-                <el-dropdown-item>
-                  <el-avatar
-                    :icon="UserFilled"
-                    style="width: 25px; height: 25px; margin-right: 10px"
-                  />
-                  <span>登入/註冊</span>
-                </el-dropdown-item>
-              </el-dropdown-menu>
-            </template>
-          </el-dropdown> -->
+        <el-col :xs="{ span: 4, offset: 12 }" :sm="0">
           <div @click="drawer = true">
             <el-icon :size="30"><Menu /></el-icon>
           </div>
@@ -167,6 +146,7 @@ const drawer = ref(false);
                     language
                   }}</span>
                 </template>
+
                 <el-menu-item
                   index="3-1"
                   @click="changeLanguage(languageList.language1)"
@@ -202,9 +182,22 @@ const drawer = ref(false);
 <style scoped>
 .el-header {
   padding: 0;
+  height: 100%;
 }
 .el-row {
   color: #000000;
+}
+.logo-col {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.logo-col .logo {
+  width: 35px;
+  height: 35px;
+}
+.title-col {
+  text-align: start;
 }
 .nav-box {
   align-items: center;
@@ -214,7 +207,7 @@ const drawer = ref(false);
   align-items: center;
 }
 .dropdown-box {
-  padding: 4px 12px;
+  padding: 4px 10px;
 }
 .dropdown-box:hover {
   border-radius: 5px;
