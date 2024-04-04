@@ -34,8 +34,8 @@ const imgList = ref([
 </script>
 
 <template>
-  <div class="container">
-    <el-row>
+  <el-container>
+    <el-row class="card-row">
       <el-col
         class="card-col"
         :xs="24"
@@ -83,33 +83,36 @@ const imgList = ref([
         </el-card>
       </el-col>
     </el-row>
-  </div>
-  <div class="pagination-block">
-    <el-pagination
-      layout="prev, pager, next"
-      :total="50"
-      :page-size="6"
-      :pager-count="5"
-      background
-    />
-  </div>
+    <el-row class="pagination-block">
+      <el-pagination
+        layout="prev, pager, next"
+        :total="50"
+        :page-size="6"
+        :pager-count="5"
+        background
+      />
+    </el-row>
+  </el-container>
 </template>
 
 <style scoped>
-.container {
+.el-container {
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
+}
+.card-row {
+  width: 80%;
 }
 .card-col {
   display: flex;
   justify-content: center;
 }
 .el-card {
-  max-width: 340px;
-  margin: 10px 15px;
+  margin: 5%;
 }
 .pagination-block {
-  width: 100%;
+  width: 80%;
   display: flex;
   justify-content: center;
   align-items: center;

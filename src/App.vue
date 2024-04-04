@@ -1,20 +1,27 @@
 <script setup>
-import LoginPage from "./components/LoginPage.vue";
-import MenuTest from "./components/MenuTest.vue";
-import LoginTest from "./components/LoginTest.vue";
-import FooterTest from "./components/FooterTest.vue";
+import Menu from "./components/Menu.vue";
+import Carousel from "./components/Carousel.vue";
+import Footer from "./components/Footer.vue";
 import Card from "./components/Card.vue";
 import ShoppingCart from "./components/ShoppingCart.vue";
 import Manage from "./components/Manage.vue";
+import Login from "./components/Login.vue";
+import Register from "./components/Register.vue";
+import LoginRegisterTabs from "./components/LoginRegisterTabs.vue";
+import Detail from "./components/Detail.vue";
 </script>
 
 <template>
-  <MenuTest />
+  <Menu />
+  <Carousel />
+  <Detail />
   <Manage />
-  <!-- <ShoppingCart /> -->
-  <!-- <Card /> -->
-  <LoginTest />
-  <FooterTest />
+  <ShoppingCart />
+  <Card />
+  <Login />
+  <Register />
+  <!-- <LoginRegisterTabs /> -->
+  <Footer />
 </template>
 
 <style scoped></style>
