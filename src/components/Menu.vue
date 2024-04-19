@@ -24,13 +24,25 @@ const languageList1 = ref([
   { language: "日本語" },
 ]);
 const drawer = ref(false);
+
+import { useRouter } from "vue-router";
+const router = useRouter();
+const toHome = () => {
+  router.push("/home");
+};
+const toShoppingCart = () => {
+  router.push("/shoppingcart");
+};
+const toLogin = () => {
+  router.push("/login");
+};
 </script>
 <template>
   <el-container>
     <el-header>
       <el-row class="nav-box">
         <el-col :xs="8" :span="6">
-          <el-row>
+          <el-row @click="toHome()">
             <el-col :span="8" class="logo-col">
               <img class="logo" src="../assets/vue.svg" alt="" />
             </el-col>
@@ -54,16 +66,16 @@ const drawer = ref(false);
               </el-button>
             </el-col>
             <el-col :span="2">
-              <el-button style="width: 35px" text>
+              <el-button style="width: 35px" text @click="toShoppingCart">
                 <el-icon size="25px"><ShoppingCart /></el-icon>
               </el-button>
             </el-col>
             <el-col :span="6">
-              <el-button style="width: 60%" text>
-                <el-avatar
+              <el-button style="width: 60%" text @click="toLogin">
+                <!-- <el-avatar
                   :icon="UserFilled"
                   style="width: 25px; height: 25px; margin-right: 10px"
-                />
+                /> -->
                 <span>登入/註冊</span>
               </el-button>
             </el-col>

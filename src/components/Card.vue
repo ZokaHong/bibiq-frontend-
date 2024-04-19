@@ -1,27 +1,43 @@
 <script setup>
 import { reactive, ref } from "vue";
-const cardList = ref([
-  {
-    name: "A",
-    img: "vue.svg",
-    content: "炒飯好吃炒飯好吃炒飯好吃炒飯好吃炒飯好吃炒飯好吃",
-  },
-  {
-    name: "B",
-    img: "vue.svg",
-    content: "雞腿好吃雞腿好吃雞腿好吃雞腿好吃雞腿好吃雞腿好吃",
-  },
-  {
-    name: "C",
-    img: "vue.svg",
-    content: "炸雞排炸雞排炸雞排炸雞排炸雞排炸雞排炸雞排炸雞排",
-  },
-  {
-    name: "D",
-    img: "vue.svg",
-    content: "養樂多養樂多養樂多養樂多養樂多養樂多養樂多養樂多",
-  },
-]);
+// import { getProduct } from "../api/index";
+import { getApi, postApi } from "../api/index";
+const cardList = ref({
+  name: "",
+  img: "",
+  content: "",
+});
+const apiNames = {
+  product: "/product",
+};
+getApi(apiNames.product)
+  .then((response) => {
+    cardList.value = response.data.product.map((product) => {
+      return {
+        name: product.name,
+        img: product.file_path,
+        content: product.content,
+      };
+    });
+  })
+  .catch((error) => {
+    console.error("失敗");
+  });
+
+// getProduct()
+//   .then((response) => {
+//     cardList.value = response.data.product.map((product) => {
+//       return {
+//         name: product.name,
+//         img: product.img,
+//         content: product.content,
+//       };
+//     });
+//   })
+//   .catch((error) => {
+//     console.error("失敗");
+//   });
+
 const imgList = ref([
   "https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg",
   "https://fuss10.elemecdn.com/1/34/19aa98b1fcb2781c4fba33d850549jpeg.jpeg",
@@ -59,8 +75,8 @@ const imgList = ref([
               "
               :span="24"
               ><el-image
-                :src="`src/assets/${item.img}`"
-                style="width: 200px"
+                :src="`${item.img}`"
+                style="width: 200px; height: 200px; object-fit: contain"
                 :preview-src-list="imgList"
             /></el-col>
             <el-col

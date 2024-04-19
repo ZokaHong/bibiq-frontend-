@@ -24,26 +24,16 @@ const bannerImageList = [
         </el-carousel-item>
       </el-carousel>
     </div>
-
-    <!-- <el-image
-      :src="bannerImageList[0]"
-      fit="contain"
-      :previewSrcList="bannerImageList"
-      :initial-index="0"
-    >
-      <template #placeholder><span class="loading">Loading...</span></template>
-      <template #error>
-        <div class="image-slot">
-          <el-icon><Camera /></el-icon>
-        </div>
-      </template>
-    </el-image> -->
+    <!-- <div style="margin: auto">
+      <h1 class="home-title" data-text="這裡是主頁">這裡是主頁</h1>
+    </div> -->
   </el-container>
 </template>
 <style scoped>
 .el-container {
   background-color: rgba(237, 191, 207, 0.2);
   border-bottom: 3px solid #000;
+  flex-wrap: wrap;
 }
 .el-image {
   width: 100%;
@@ -54,5 +44,28 @@ const bannerImageList = [
   right: 30px;
   bottom: 10px;
   font: 700 20px Helvetica;
+}
+.home-title {
+  position: relative;
+}
+.home-title::after {
+  content: attr(data-text);
+  color: #fdffea;
+  position: absolute;
+  top: 0;
+  left: 0;
+  clip-path: circle(20% at 50% 50%);
+  animation: movelight 10s infinite;
+}
+@keyframes movelight {
+  0% {
+    clip-path: circle(20% at 0% 50%);
+  }
+  50% {
+    clip-path: circle(20% at 100% 50%);
+  }
+  100% {
+    clip-path: circle(20% at 0% 50%);
+  }
 }
 </style>
