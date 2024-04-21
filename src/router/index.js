@@ -39,6 +39,16 @@ const router = createRouter({
       name: "/newproduct",
       component: () => import("@/NewProduct.vue"),
     },
+    {
+      path: "/manage",
+      name: "/manage",
+      component: () => import("@/Manage.vue"),
+    },
+    {
+      path: "/detail",
+      name: "/detail",
+      component: () => import("@/Detail.vue"),
+    },
   ],
 });
 

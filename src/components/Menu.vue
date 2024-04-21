@@ -36,12 +36,16 @@ const toShoppingCart = () => {
 const toLogin = () => {
   router.push("/login");
 };
+const toManage = ()=>{
+  router.push("/manage")
+}
+
 </script>
 <template>
   <el-container>
     <el-header>
       <el-row class="nav-box">
-        <el-col :xs="8" :span="6">
+        <el-col :xs="8" :span="4">
           <el-row @click="toHome()">
             <el-col :span="8" class="logo-col">
               <img class="logo" src="../assets/vue.svg" alt="" />
@@ -52,7 +56,7 @@ const toLogin = () => {
           </el-row>
         </el-col>
 
-        <el-col :xs="0" :span="12" :offset="6">
+        <el-col :xs="0" :span="14" :offset="6">
           <el-row class="toolsMenu">
             <el-col :span="9">
               <el-input
@@ -70,7 +74,7 @@ const toLogin = () => {
                 <el-icon size="25px"><ShoppingCart /></el-icon>
               </el-button>
             </el-col>
-            <el-col :span="6">
+            <el-col :span="4">
               <el-button style="width: 60%" text @click="toLogin">
                 <!-- <el-avatar
                   :icon="UserFilled"
@@ -78,6 +82,9 @@ const toLogin = () => {
                 /> -->
                 <span>登入/註冊</span>
               </el-button>
+            </el-col>
+            <el-col :span="2">
+            <el-button text @click="toManage">詳情</el-button>
             </el-col>
             <el-col :span="7">
               <el-dropdown trigger="click" class="dropdown-box">
