@@ -6,6 +6,10 @@ const socials = ref([
   { label: "3" },
   { label: "4" },
 ]);
+const html = document.querySelector("html");
+const backTop = () => {
+  html.scrollTop = 0
+};
 </script>
 <template>
   <el-container>
@@ -19,7 +23,9 @@ const socials = ref([
             <el-icon size="30px"><HomeFilled /></el-icon>
           </span>
         </el-link>
-        <el-col :xs="12" :md="8" :span="8"><span>聯絡我們</span></el-col>
+        <el-col :xs="12" :md="8" :span="8"
+          ><router-link to="/contact" @click="backTop">聯絡我們</router-link></el-col
+        >
         <el-col :xs="12" :md="8" :span="8"><span>@ Copyright</span></el-col>
         <el-col :xs="24" :md="8" :span="8">
           <div

@@ -8,8 +8,8 @@ const bannerImageList = [
 </script>
 <template>
   <el-container>
-    <div style="width: 100%">
-      <el-carousel type="card" height="200px">
+    <div style="width: 100%; margin: 30px 10px">
+      <el-carousel type="card" height="250px">
         <el-carousel-item v-for="item in bannerImageList.length" :key="item">
           <el-image :src="bannerImageList[item - 1]" fit="contain">
             <template #placeholder
@@ -39,6 +39,15 @@ const bannerImageList = [
   width: 100%;
   height: 200px;
 }
+::v-deep .el-carousel__mask {
+  opacity: 0 !important;
+}
+
+::v-deep .el-carousel__button {
+  background-color: rgba(111, 0, 255, 0.8);
+  padding: 3px 8px;
+}
+
 .loading {
   position: absolute;
   right: 30px;

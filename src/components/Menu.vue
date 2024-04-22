@@ -39,6 +39,9 @@ const toLogin = () => {
 const toManage = ()=>{
   router.push("/manage")
 }
+const toUser = ()=>{
+  router.push('/user')
+}
 
 </script>
 <template>
@@ -58,7 +61,7 @@ const toManage = ()=>{
 
         <el-col :xs="0" :span="14" :offset="6">
           <el-row class="toolsMenu">
-            <el-col :span="9">
+            <el-col :span="7">
               <el-input
                 type="text"
                 v-model="searchInput"
@@ -83,10 +86,11 @@ const toManage = ()=>{
                 <span>登入/註冊</span>
               </el-button>
             </el-col>
-            <el-col :span="2">
-            <el-button text @click="toManage">詳情</el-button>
+            <el-col :span="6">
+            <el-button text @click="toUser">使用者</el-button>
+            <el-button text @click="toManage">管理者</el-button>
             </el-col>
-            <el-col :span="7">
+            <el-col :span="5">
               <el-dropdown trigger="click" class="dropdown-box">
                 <div
                   style="display: flex; align-items: center; user-select: none"

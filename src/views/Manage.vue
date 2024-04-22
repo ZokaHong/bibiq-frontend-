@@ -166,11 +166,11 @@ const receiptVisible = ref(false);
             ><el-link @click="receiptVisible = true"
               ><el-icon><Document /></el-icon></el-link
           ></el-table-column>
-          <el-table-column label="編輯">
+          <!-- <el-table-column label="編輯">
             <el-link>
               <el-icon><EditPen /></el-icon>
             </el-link>
-          </el-table-column>
+          </el-table-column> -->
         </el-table>
 
         <el-dialog
@@ -257,6 +257,8 @@ const receiptVisible = ref(false);
 .manage-row {
   width: 80%;
   background-color: #fff;
+  margin: 5% 0;
+  padding: 2%;
 }
 .manage-header {
   display: flex;

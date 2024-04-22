@@ -208,6 +208,7 @@ const count = ref([
 .content-row {
   width: 80%;
   background-color: #ffffff;
+  margin-top: 5%;
 }
 
 .fixed-footer-row {

@@ -180,6 +180,7 @@ const options = [
 .shoppingCart-row {
   width: 80%;
   background-color: #fff;
+  margin-top: 5%;
 }
 .shoppingCart-header {
   display: flex;

@@ -110,8 +110,12 @@ const loginEvent = () => {
   </el-container>
 </template>
 <style scoped>
+.el-main{
+  padding: 0;
+}
 .el-row {
   border-radius: 20px;
+  margin-top: 5%;
 }
 .el-col {
   color: black;

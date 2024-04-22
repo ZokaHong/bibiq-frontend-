@@ -45,9 +45,19 @@ const router = createRouter({
       component: () => import("@/Manage.vue"),
     },
     {
+      path: "/user",
+      name: "/user",
+      component: () => import("@/User.vue"),
+    },
+    {
       path: "/detail",
       name: "/detail",
       component: () => import("@/Detail.vue"),
+    },
+    {
+      path: "/contact",
+      name: "/contact",
+      component: () => import("@/Contact.vue"),
     },
   ],
 });
