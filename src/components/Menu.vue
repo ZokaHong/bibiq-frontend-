@@ -42,12 +42,6 @@ const toManage = () => {
 const toUser = () => {
   router.push("/user");
 };
-
-function clickDrawerMenu(event) {
-  if (event === "toShoppingCart") toShoppingCart();
-  if (event === "toLogin") toLogin();
-  drawer.value = false;
-}
 </script>
 <template>
   <el-container>
@@ -142,14 +136,11 @@ function clickDrawerMenu(event) {
               </el-button>
             </div>
             <el-menu>
-              <el-menu-item
-                index="1"
-                @click="clickDrawerMenu('toShoppingCart')"
-              >
+              <el-menu-item index="1" @click="toShoppingCart">
                 <el-icon size="25px"><ShoppingCart /></el-icon>
                 <span>查看購物車</span>
               </el-menu-item>
-              <el-menu-item index="2" @click="clickDrawerMenu('toLogin')">
+              <el-menu-item index="2" @click="toLogin">
                 <el-avatar
                   :icon="UserFilled"
                   style="width: 25px; height: 25px"
