@@ -36,13 +36,18 @@ const toShoppingCart = () => {
 const toLogin = () => {
   router.push("/login");
 };
-const toManage = ()=>{
-  router.push("/manage")
-}
-const toUser = ()=>{
-  router.push('/user')
-}
+const toManage = () => {
+  router.push("/manage");
+};
+const toUser = () => {
+  router.push("/user");
+};
 
+function clickDrawerMenu(event) {
+  if (event === "toShoppingCart") toShoppingCart();
+  if (event === "toLogin") toLogin();
+  drawer.value = false;
+}
 </script>
 <template>
   <el-container>
@@ -87,8 +92,8 @@ const toUser = ()=>{
               </el-button>
             </el-col>
             <el-col :span="6">
-            <el-button text @click="toUser">使用者</el-button>
-            <el-button text @click="toManage">管理者</el-button>
+              <el-button text @click="toUser">使用者</el-button>
+              <el-button text @click="toManage">管理者</el-button>
             </el-col>
             <el-col :span="5">
               <el-dropdown trigger="click" class="dropdown-box">
@@ -137,11 +142,14 @@ const toUser = ()=>{
               </el-button>
             </div>
             <el-menu>
-              <el-menu-item index="1">
+              <el-menu-item
+                index="1"
+                @click="clickDrawerMenu('toShoppingCart')"
+              >
                 <el-icon size="25px"><ShoppingCart /></el-icon>
                 <span>查看購物車</span>
               </el-menu-item>
-              <el-menu-item index="2">
+              <el-menu-item index="2" @click="clickDrawerMenu('toLogin')">
                 <el-avatar
                   :icon="UserFilled"
                   style="width: 25px; height: 25px"
