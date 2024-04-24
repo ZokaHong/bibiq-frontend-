@@ -66,8 +66,8 @@ const loginEvent = () => {
                 show-password
               />
             </el-col>
-            <el-col>
-              <el-button class="loginButton" size="default" @click="loginEvent"
+            <el-col class="loginButtonCol">
+              <el-button class="loginButton" @click="loginEvent"
                 >登入</el-button
               >
             </el-col>
@@ -85,8 +85,8 @@ const loginEvent = () => {
           <el-divider />
           <!-- 登入col下半部 -->
           <el-row>
-            <el-col>
-              <el-button class="loginButton" size="default" @click="toRegister"
+            <el-col class="createAccountButtonCol">
+              <el-button class="createAccountButton" @click="toRegister"
                 >創建帳號</el-button
               >
             </el-col>
@@ -110,9 +110,6 @@ const loginEvent = () => {
   </el-container>
 </template>
 <style scoped>
-.el-main{
-  padding: 0;
-}
 .el-row {
   border-radius: 20px;
   margin-top: 5%;
@@ -129,40 +126,51 @@ const loginEvent = () => {
   padding: 20px 40px;
   border-radius: 10px;
 }
+.loginTextCol {
+  margin-bottom: 20px;
+  border-bottom: 1px solid #000;
+}
 .loginText {
-  font: 700 20px Helvetica;
+  font: 700 24px Helvetica;
 }
 
 .el-button {
-  width: 100%;
   background-color: rgba(109, 179, 175, 0.4);
   border: 2px solid rgba(75, 82, 96, 0.3);
-  color: rgba(23, 20, 19, 0.8);
+  color: #000;
+  box-sizing: content-box;
+  padding: 5px;
 }
 
 .el-input {
-  font: 400 14px Helvetica;
+  font: 400 16px Helvetica;
 }
 
-.forgetherPasswordButtton {
+/* .forgetherPasswordButtton {
   font: 600 14px Helvetica;
   width: 30%;
+} */
+.loginButtonCol {
+  margin-top: 20px;
+}
+.createAccountButtonCol {
+  margin-bottom: 20px;
+}
+
+.loginButton,
+.createAccountButton {
+  font: 700 20px Helvetica;
+  width: 40%;
 }
 .loginButton {
-  font: 700 20px Helvetica;
-  width: 50%;
+  background-color: rgba(118, 235, 128, 0.6);
 }
-.ortherLoginButton {
-  font: 700 20px Helvetica;
+/* .ortherLoginButton {
+  font: 700 24px Helvetica;
   width: 100%;
-}
+} */
 
-@media (max-width: 576px) {
-  .loginText {
-    font: 700 18px Helvetica;
-  }
-}
-
+/* 
 .ortherLoginText::before {
   content: "";
   display: inline-block;
@@ -178,5 +186,5 @@ const loginEvent = () => {
   background-color: #000304;
   width: 22%;
   height: 2px;
-}
+} */
 </style>

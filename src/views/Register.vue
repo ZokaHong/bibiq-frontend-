@@ -64,12 +64,12 @@ const toLogin = () => {
                 placeholder="手機號碼"
                 clearable
             /></el-col> -->
-            <el-col>
-              <el-button class="registerButton" size="default">註冊</el-button>
+            <el-col class="registerButtonCol">
+              <el-button class="registerButton">註冊</el-button>
             </el-col>
             <el-divider />
-            <el-col>
-              <el-button class="returnButton" size="default" @click="toLogin"
+            <el-col class="returnButtonCol">
+              <el-button class="returnButton" @click="toLogin"
                 >返回登入</el-button
               >
             </el-col>
@@ -82,6 +82,7 @@ const toLogin = () => {
 <style scoped>
 .el-row {
   border-radius: 20px;
+  margin-top: 5%;
 }
 .el-col {
   color: black;
@@ -95,24 +96,37 @@ const toLogin = () => {
   padding: 20px 40px;
   border-radius: 10px;
 }
+.registerTextCol {
+  margin-bottom: 20px;
+  border-bottom: 1px solid #000;
+}
 .registerText {
-  font: 700 20px Helvetica;
+  font: 700 24px Helvetica;
 }
 
 .el-button {
-  width: 100%;
   background-color: rgba(109, 179, 175, 0.4);
   border: 2px solid rgba(75, 82, 96, 0.3);
-  color: rgba(23, 20, 19, 0.8);
+  color: #000;
+  box-sizing: content-box;
+  padding: 5px;
 }
 
 .el-input {
-  font: 400 14px Helvetica;
+  font: 400 16px Helvetica;
 }
-
+.registerButtonCol {
+  margin-top: 20px;
+}
+.returnButtonCol {
+  margin-bottom: 20px;
+}
 .registerButton,
 .returnButton {
   font: 700 20px Helvetica;
-  width: 50%;
+  width: 40%;
+}
+.registerButton {
+  background-color: rgba(231, 130, 71, 0.6);
 }
 </style>

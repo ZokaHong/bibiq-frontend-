@@ -4,8 +4,10 @@ import Card from "../components/Card.vue";
 </script>
 
 <template>
-  <Carousel />
-  <Card />
+  <div>
+    <Carousel />
+    <Card />
+  </div>
 </template>
 
 <style scoped></style>

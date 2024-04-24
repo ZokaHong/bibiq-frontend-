@@ -1,4 +1,5 @@
-<script setup></script>
+<script setup>
+</script>
 <template>
   <el-container>
     <el-row>
@@ -27,6 +28,8 @@
   </el-container>
 </template>
 <style scoped>
+
+
 .el-container {
   display: flex;
   justify-content: center;
@@ -46,11 +49,15 @@
 }
 .contact-row {
   width: 100%;
+  align-items: end;
 }
 .col-title, .col-content{
   margin-top: 10px;
 }
-.col-title span, .col-content span{
-  font: 400 28px Helvetica;
+.col-title span{
+  font: 400 24px Helvetica;
+}
+.col-content span{
+  font: 400 20px Helvetica;
 }
 </style>

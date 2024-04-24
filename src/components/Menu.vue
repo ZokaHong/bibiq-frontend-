@@ -8,48 +8,32 @@ const searchInput = ref("");
 const inputAccount = ref("");
 const inputPassword = ref("");
 const language = ref("繁體中文");
-const languageList = {
-  language1: "繁體中文",
-  language2: "简体中文",
-  language3: "English",
-  language4: "日本語",
-};
+
 function changeLanguage(item) {
   language.value = item;
 }
-const languageList1 = ref([
-  { language: "繁體中文" },
-  { language: "简体中文" },
-  { language: "English" },
-  { language: "日本語" },
-]);
+
+const languageList = ref(["繁體中文", "简体中文", "English", "日本語"]);
 const drawer = ref(false);
 
 import { useRouter } from "vue-router";
 const router = useRouter();
-const toHome = () => {
-  router.push("/home");
-};
-const toShoppingCart = () => {
-  router.push("/shoppingcart");
-};
-const toLogin = () => {
-  router.push("/login");
-};
-const toManage = ()=>{
-  router.push("/manage")
-}
-const toUser = ()=>{
-  router.push('/user')
+
+function routerToPage(page) {
+  router.push(`/${page}`);
 }
 
+function closeDrawer(page) {
+  routerToPage(page);
+  drawer.value = false;
+}
 </script>
 <template>
   <el-container>
     <el-header>
       <el-row class="nav-box">
         <el-col :xs="8" :span="4">
-          <el-row @click="toHome()">
+          <el-row @click="routerToPage('home')">
             <el-col :span="8" class="logo-col">
               <img class="logo" src="../assets/vue.svg" alt="" />
             </el-col>
@@ -73,12 +57,16 @@ const toUser = ()=>{
               </el-button>
             </el-col>
             <el-col :span="2">
-              <el-button style="width: 35px" text @click="toShoppingCart">
+              <el-button
+                style="width: 35px"
+                text
+                @click="routerToPage('shoppingCart')"
+              >
                 <el-icon size="25px"><ShoppingCart /></el-icon>
               </el-button>
             </el-col>
             <el-col :span="4">
-              <el-button style="width: 60%" text @click="toLogin">
+              <el-button style="width: 60%" text @click="routerToPage('login')">
                 <!-- <el-avatar
                   :icon="UserFilled"
                   style="width: 25px; height: 25px; margin-right: 10px"
@@ -87,8 +75,8 @@ const toUser = ()=>{
               </el-button>
             </el-col>
             <el-col :span="6">
-            <el-button text @click="toUser">使用者</el-button>
-            <el-button text @click="toManage">管理者</el-button>
+              <el-button text @click="routerToPage('user')">使用者</el-button>
+              <el-button text @click="routerToPage('manage')">管理者</el-button>
             </el-col>
             <el-col :span="5">
               <el-dropdown trigger="click" class="dropdown-box">
@@ -105,9 +93,9 @@ const toUser = ()=>{
                 <template #dropdown>
                   <el-dropdown-menu>
                     <el-dropdown-item
-                      v-for="item in languageList1"
-                      @click="language = item.language"
-                      >{{ item.language }}</el-dropdown-item
+                      v-for="item in languageList"
+                      @click="language = item"
+                      >{{ item }}</el-dropdown-item
                     >
                   </el-dropdown-menu>
                 </template>
@@ -137,53 +125,28 @@ const toUser = ()=>{
               </el-button>
             </div>
             <el-menu>
-              <el-menu-item index="1">
-                <el-icon size="25px"><ShoppingCart /></el-icon>
+              <el-menu-item index="1" @click="closeDrawer('shoppingCart')">
                 <span>查看購物車</span>
               </el-menu-item>
-              <el-menu-item index="2">
-                <el-avatar
-                  :icon="UserFilled"
-                  style="width: 25px; height: 25px"
-                />
+              <el-menu-item index="2" @click="closeDrawer('login')">
                 <span>登入/註冊</span>
               </el-menu-item>
-              <el-sub-menu index="3">
+              <el-menu-item index="3" @click="closeDrawer('user')">
+                <span>使用者</span>
+              </el-menu-item>
+              <el-menu-item index="4" @click="closeDrawer('manage')">
+                <span>管理者</span>
+              </el-menu-item>
+              <el-sub-menu index="5">
                 <template #title>
-                  <img
-                    src="../assets/globe-icon-96x96-6gmgebx3.png"
-                    width="25px"
-                    alt=""
-                  />
-                  <span style="margin-left: auto; font: 400 24px Helvetica">{{
-                    language
-                  }}</span>
+                  <span style="font: 400 24px Helvetica">{{ language }}</span>
                 </template>
-
                 <el-menu-item
-                  index="3-1"
-                  @click="changeLanguage(languageList.language1)"
+                  v-for="(item, index) in languageList"
+                  :index="5 - `${index}`"
+                  @click="changeLanguage(item)"
+                  >{{ item }}</el-menu-item
                 >
-                  繁體中文
-                </el-menu-item>
-                <el-menu-item
-                  index="3-2"
-                  @click="changeLanguage(languageList.language2)"
-                >
-                  简体中文
-                </el-menu-item>
-                <el-menu-item
-                  index="3-3"
-                  @click="changeLanguage(languageList.language3)"
-                >
-                  English
-                </el-menu-item>
-                <el-menu-item
-                  index="3-4"
-                  @click="changeLanguage(languageList.language4)"
-                >
-                  日本語
-                </el-menu-item>
               </el-sub-menu>
             </el-menu>
           </el-drawer>
@@ -240,12 +203,10 @@ const toUser = ()=>{
 
 .el-menu-item {
   font: 400 24px Helvetica;
-  justify-content: space-between;
+  justify-content: start;
 }
-.el-sub-menu template {
-  justify-content: center;
-}
+
 .el-sub-menu .el-menu-item {
-  justify-content: center;
+  justify-content: end;
 }
 </style>

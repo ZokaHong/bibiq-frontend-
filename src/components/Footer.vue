@@ -15,10 +15,10 @@ const backTop = () => {
   <el-container>
     <el-footer>
       <el-row class="footer-row">
-        <el-link class="backBar" href="#" :underline="false">
+        <el-link class="backBar" @click="backTop" :underline="false">
           <span>回頁首</span>
         </el-link>
-        <el-link class="backBarRwd" href="#" :underline="false">
+        <el-link class="backBarRwd" @click="backTop" :underline="false">
           <span>
             <el-icon size="30px"><HomeFilled /></el-icon>
           </span>
@@ -96,11 +96,21 @@ const backTop = () => {
   position: absolute;
   top: -50px;
   right: 0;
+  display: none;
 }
 .backBarRwd:hover {
   color: #000000;
   background-color: #f5c3c7;
 }
+@media (max-width:772px){
+  .backBarRwd{
+    display: flex;
+  }
+  .backBar{
+    display: none;
+  }
+}
+
 
 .social {
   width: 25px;
