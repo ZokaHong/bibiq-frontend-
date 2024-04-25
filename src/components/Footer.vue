@@ -6,9 +6,9 @@ const socials = ref([
   { label: "3" },
   { label: "4" },
 ]);
-const html = document.querySelector("html");
+
 const backTop = () => {
-  html.scrollTop = 0
+  window.scrollTo({ top: 0, behavior: "smooth" });
 };
 </script>
 <template>
@@ -24,7 +24,7 @@ const backTop = () => {
           </span>
         </el-link>
         <el-col :xs="12" :md="8" :span="8"
-          ><router-link to="/contact" @click="backTop">聯絡我們</router-link></el-col
+          ><router-link to="/contact">聯絡我們</router-link></el-col
         >
         <el-col :xs="12" :md="8" :span="8"><span>@ Copyright</span></el-col>
         <el-col :xs="24" :md="8" :span="8">
@@ -102,15 +102,14 @@ const backTop = () => {
   color: #000000;
   background-color: #f5c3c7;
 }
-@media (max-width:772px){
-  .backBarRwd{
+@media (max-width: 772px) {
+  .backBarRwd {
     display: flex;
   }
-  .backBar{
+  .backBar {
     display: none;
   }
 }
-
 
 .social {
   width: 25px;

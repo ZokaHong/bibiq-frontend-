@@ -1,9 +1,5 @@
 <script setup>
 import { ref } from "vue";
-const inputAccount = ref("");
-const inputPassword = ref("");
-const registerAccount = ref("");
-const registerPassword = ref("");
 import { useRouter } from "vue-router";
 const router = useRouter();
 const toRegister = () => {
@@ -11,19 +7,21 @@ const toRegister = () => {
 };
 import { postApi } from "../api/index";
 const apiNames = {
-  login: "/user/login",
+  login: "/user/login"
 };
-const data = {
-  account: "kinnaroot",
-  password: "kinnaroot",
-};
+const data = ref({
+  account: "",
+  password: "",
+});
 const loginEvent = () => {
-  postApi(apiNames.login, data)
+  postApi(apiNames.login, data.value)
     .then((response) => {
       localStorage.setItem("token", response.data.token);
+      data.value.account = ''
+      data.value.password = ''
     })
     .catch((error) => {
-      console.error(error.response.data.error);
+      console.error(error.response.data);
     });
 };
 </script>
@@ -49,7 +47,7 @@ const loginEvent = () => {
             </el-col>
             <el-col>
               <el-input
-                v-model="inputAccount"
+                v-model="data.account"
                 type="text"
                 onkeyup="value=value.replace(/[\W]/g,'') "
                 placeholder="帳號"
@@ -58,7 +56,7 @@ const loginEvent = () => {
             </el-col>
             <el-col>
               <el-input
-                v-model="inputPassword"
+                v-model="data.password"
                 type="password"
                 placeholder="密碼"
                 onkeyup="value=value.replace(/[\W]/g,'') "

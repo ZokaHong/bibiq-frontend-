@@ -39,6 +39,7 @@
   width: 80%;
   margin: 5% 0;
   background-color: #ffffff;
+  padding: 2%;
 }
 .contact-header {
   display: flex;

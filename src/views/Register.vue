@@ -9,6 +9,24 @@ const router = useRouter();
 const toLogin = () => {
   router.push("/login");
 };
+import { postApi } from "../api";
+const apiNames = {
+  register: "/user/register",
+};
+const data = ref({
+  account: "",
+  confirm_password: "",
+  name: "",
+  password: "",
+});
+const registerEvent = async () => {
+  const res = await postApi(apiNames.register, data.value);
+  console.log(res);
+  data.value.account = "";
+  data.value.confirm_password = "";
+  data.value.name = "";
+  data.value.password = "";
+};
 </script>
 
 <template>
@@ -32,7 +50,7 @@ const toLogin = () => {
             </el-col>
             <el-col>
               <el-input
-                v-model="registerAccount"
+                v-model="data.account"
                 type="text"
                 onkeyup="value=value.replace(/[\W]/g,'') "
                 placeholder="帳號"
@@ -41,7 +59,7 @@ const toLogin = () => {
             </el-col>
             <el-col>
               <el-input
-                v-model="registerPassword"
+                v-model="data.password"
                 type="password"
                 placeholder="密碼"
                 onkeyup="value=value.replace(/[\W]/g,'') "
@@ -49,23 +67,26 @@ const toLogin = () => {
                 show-password
               />
             </el-col>
-            <!-- <el-col
+            <el-col
               ><el-input
-                v-model="registerMail"
-                type="text"
-                placeholder="電子郵件"
+                v-model="data.confirm_password"
+                type="password"
+                placeholder="確認密碼"
                 clearable
+                show-password
               />
             </el-col>
             <el-col
               ><el-input
-                v-model="registerPhone"
+                v-model="data.name"
                 type="text"
-                placeholder="手機號碼"
+                placeholder="名稱"
                 clearable
-            /></el-col> -->
+            /></el-col>
             <el-col class="registerButtonCol">
-              <el-button class="registerButton">註冊</el-button>
+              <el-button class="registerButton" @click="registerEvent"
+                >註冊</el-button
+              >
             </el-col>
             <el-divider />
             <el-col class="returnButtonCol">

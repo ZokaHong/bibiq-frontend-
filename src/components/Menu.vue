@@ -143,7 +143,7 @@ function closeDrawer(page) {
                 </template>
                 <el-menu-item
                   v-for="(item, index) in languageList"
-                  :index="5 - `${index}`"
+                  :index="`5 - ${index}`"
                   @click="changeLanguage(item)"
                   >{{ item }}</el-menu-item
                 >
