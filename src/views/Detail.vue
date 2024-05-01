@@ -1,7 +1,7 @@
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 const itemColors = ref("");
-const itemCount = ref("");
+const count = ref("");
 const colors = ref([
   {
     value: "#bc8aae",
@@ -12,24 +12,47 @@ const colors = ref([
     label: "黑色",
   },
 ]);
-const count = ref([
-  {
-    value: "1",
-    label: "1",
-  },
-  {
-    value: "2",
-    label: "2",
-  },
-  {
-    value: "3",
-    label: "3",
-  },
-  {
-    value: "4",
-    label: "4",
-  },
-]);
+
+import { useRoute } from "vue-router";
+const route = useRoute();
+const id = parseInt(route.query.id);
+
+const isLoading = ref(false);
+
+import { getApi } from "../api/index";
+
+const apiNames = {
+  product: "/product",
+};
+
+const detailList = ref({
+  file_path: "",
+  id: "",
+  introduce: "",
+  name: "",
+  price: "",
+  stock: "",
+});
+const matchedObject = ref();
+onMounted(() => {
+  getApi(apiNames.product)
+    .then((response) => {
+      detailList.value = response.data.product;
+      matchedObject.value = detailList.value.find((item) => item.id === id);
+
+      // if (matchedObject) {
+      //   console.log(matchedObject.value);
+      // } else {
+      //   console.log("未找到匹配的对象");
+      // }
+
+      isLoading.value = true;
+    })
+    .catch((error) => {
+      console.error("失敗");
+      isLoading.value = true;
+    });
+});
 </script>
 <template>
   <el-container>
@@ -41,12 +64,17 @@ const count = ref([
       <el-col :span="4">分類5</el-col>
       <el-col :span="4">分類6</el-col>
     </el-row> -->
-    <el-row class="content-row" :gutter="20" style="padding: 20px">
+    <el-row
+      class="content-row"
+      :gutter="20"
+      style="padding: 20px"
+      v-if="isLoading"
+    >
       <el-col :span="24" :md="8">
         <el-row style="display: flex; align-items: center; margin-top: 45px">
           <el-col>
             <el-image
-              src="src/assets/pan.jpg"
+              :src="matchedObject.file_path"
               style="
                 width: 180px;
                 height: 180px;
@@ -57,24 +85,21 @@ const count = ref([
               class="item-image"
             />
           </el-col>
-          <el-col style="margin-top: 20px">
+          <!-- <el-col style="margin-top: 20px">
             <span class="item-event">discount: 無</span>
-          </el-col>
+          </el-col> -->
         </el-row>
       </el-col>
       <el-col :span="24" :md="16" style="margin-top: 20px; margin-bottom: 30px">
         <el-row style="text-align: start">
-          <el-col :span="0" :md="16">
+          <el-col :span="16">
             <el-row>
-              <el-col class="item-slogan"
-                ><span>鍋身不沾黏塗層，好清洗防刮</span></el-col
-              >
               <el-col>
-                <h3><a href="#">3Q鍋具</a> 不沾深平底鍋</h3>
+                <h3>{{ matchedObject.name }}</h3>
               </el-col>
-              <el-col><span>銷售數量 > X萬件</span></el-col>
-              <el-col><span>法國製造原裝進口</span></el-col>
-              <el-col><span>耐磨鑽石不沾塗層</span></el-col>
+              <el-col
+                ><span>{{ matchedObject.introduce }}</span></el-col
+              >
             </el-row>
           </el-col>
           <el-col :span="24" :md="6">
@@ -105,13 +130,13 @@ const count = ref([
               >
             </div>
           </el-col>
-          <el-col :span="24" :md="0">
+          <!-- <el-col :span="24" :md="0">
             <h3><a href="#">3Q鍋具</a> 不沾深平底鍋</h3>
-          </el-col>
+          </el-col> -->
 
           <el-col>
             <el-row style="margin: 30px 0">
-              <el-col :span="24" :sm="12" :lg="8" style="margin-top: 10px">
+              <!-- <el-col :span="24" :sm="12" :lg="8" style="margin-top: 10px">
                 <span>選項: </span>
                 <el-select
                   v-model="itemColors"
@@ -125,24 +150,10 @@ const count = ref([
                     :value="item.value"
                   ></el-option>
                 </el-select>
-              </el-col>
-              <el-col :span="24" :sm="12" :lg="8" style="margin-top: 10px">
-                <span>數量: </span>
-                <el-select
-                  v-model="itemCount"
-                  size="small"
-                  style="width: 100px; margin-left: 20px"
-                >
-                  <el-option
-                    v-for="item in count"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value"
-                  ></el-option> </el-select
-              ></el-col>
-              <el-col :span="24" :lg="8" style="margin-top: 10px">
+              </el-col> -->
+              <el-col :span="24" :lg="8" style="margin: 10px 0">
                 <div>
-                  <span>價格: </span>
+                  <span>單價: </span>
                   <span
                     class="item-price"
                     style="
@@ -150,7 +161,39 @@ const count = ref([
                       font-style: italic;
                       margin-left: 20px;
                     "
-                    >1380</span
+                    >{{ matchedObject.price }}</span
+                  >
+                  <span style="font: 700 14px Helvetica; margin-left: 3px"
+                    >元</span
+                  >
+                </div></el-col
+              >
+              <el-col :span="24" :lg="8" style="margin: 10px 0">
+                <span>數量: </span>
+                <el-select
+                  v-model="count"
+                  size="small"
+                  style="width: 100px; margin-left: 20px"
+                >
+                  <el-option
+                    v-for="item in matchedObject.stock"
+                    :key="item"
+                    :label="item"
+                    :value="item"
+                  ></el-option> </el-select
+              ></el-col>
+
+              <el-col :span="24" :lg="8" style="margin: 10px 0">
+                <div>
+                  <span>總價: </span>
+                  <span
+                    class="item-price"
+                    style="
+                      font: 700 24px Helvetica;
+                      font-style: italic;
+                      margin-left: 20px;
+                    "
+                    >{{ matchedObject.price * count }}</span
                   >
                   <span style="font: 700 14px Helvetica; margin-left: 3px"
                     >元</span

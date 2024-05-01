@@ -1,11 +1,11 @@
 <script setup>
-import { reactive, ref } from "vue";
-// import { getProduct } from "../api/index";
-import { getApi, postApi } from "../api/index";
+import { ref } from "vue";
+import { getApi } from "../api/index";
 const cardList = ref({
   name: "",
   img: "",
   content: "",
+  id: "",
 });
 const apiNames = {
   product: "/product",
@@ -17,27 +17,13 @@ getApi(apiNames.product)
         name: product.name,
         img: product.file_path,
         content: product.content,
+        id: product.id,
       };
     });
   })
   .catch((error) => {
     console.error("失敗");
   });
-
-// getProduct()
-//   .then((response) => {
-//     cardList.value = response.data.product.map((product) => {
-//       return {
-//         name: product.name,
-//         img: product.img,
-//         content: product.content,
-//       };
-//     });
-//   })
-//   .catch((error) => {
-//     console.error("失敗");
-//   });
-
 
 const imgList = ref([
   "https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg",
@@ -51,12 +37,10 @@ const imgList = ref([
 const html = document.querySelector("html");
 import { useRouter } from "vue-router";
 const router = useRouter();
-const toDetail = () => {
-  router.push("/detail");
-  html.scrollTop = 0
+const toDetail = (id) => {
+  router.push(`/detail?id=${id}`);
+  html.scrollTop = 0;
 };
-
-
 </script>
 
 <template>
@@ -103,7 +87,7 @@ const toDetail = () => {
               style="display: flex; align-items: center; justify-content: end"
               :span="8"
               :offset="16"
-              ><el-button @click="toDetail">查看更多</el-button></el-col
+              ><el-button @click="toDetail(item.id)">查看更多</el-button></el-col
             >
           </el-row>
         </el-card>

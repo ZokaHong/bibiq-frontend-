@@ -30,21 +30,43 @@ const textColor = ref(["red", "blue", "green"]);
 const receiptVisible = ref(false);
 
 import { Plus } from "@element-plus/icons-vue";
-const inputName = ref("");
-const inputIntroduce = ref("");
-const inputPrice = ref("");
-const inputStock = ref("");
+
 const imageUrl = "";
-const uploadSumbit = () => {
-  console.log("提交");
-};
+
+const uploadRef = ref();
 const files = ref([]);
 
-const handleChange = (uploadFile, uploadFiles) => {
-  console.log(uploadFile, uploadFiles);
+const formData = new FormData();
+const uploadSumbit = (options) => {
+  console.log('提交')
+  console.log(options)
 };
 
+
 const activePage = ref("manage");
+
+import { postApi } from "../api/index";
+
+const apiNames = {
+  product: "/product",
+};
+const data = ref({
+  file_path: "",
+  introduce: "",
+  name: "",
+  price: "",
+  stock: "",
+});
+
+const uploadEvent = async () => {
+  const res = await postApi(apiNames.product, data.value);
+  console.log(res);
+  data.value.file_path = "";
+  data.value.introduce = "";
+  data.value.name = "";
+  data.value.price = "";
+  data.value.stock = "";
+};
 </script>
 <template>
   <el-container>
@@ -196,35 +218,46 @@ const activePage = ref("manage");
         <el-row class="newProduct-row">
           <el-col>
             <el-row>
-              <el-col :span="4" :offset="2" class="newProduct-title"> <h3>名稱</h3></el-col>
+              <el-col :span="4" :offset="2" class="newProduct-title">
+                <h3>名稱</h3></el-col
+              >
               <el-col :span="18"
-                ><el-input v-model="inputName"></el-input
+                ><el-input v-model="data.name"></el-input
               ></el-col>
-              <el-col :span="4" :offset="2" class="newProduct-title"><h3>價格</h3></el-col>
+              <el-col :span="4" :offset="2" class="newProduct-title"
+                ><h3>價格</h3></el-col
+              >
               <el-col :span="18"
-                ><el-input v-model="inputPrice"></el-input
+                ><el-input v-model="data.price"></el-input
               ></el-col>
-              <el-col :span="4" :offset="2" class="newProduct-title"><h3>庫存</h3></el-col>
+              <el-col :span="4" :offset="2" class="newProduct-title"
+                ><h3>庫存</h3></el-col
+              >
               <el-col :span="18"
-                ><el-input v-model="inputStock"></el-input
+                ><el-input v-model="data.stock"></el-input
               ></el-col>
-              <el-col :span="4" :offset="2" class="newProduct-title"><h3>介紹</h3></el-col>
+              <el-col :span="4" :offset="2" class="newProduct-title"
+                ><h3>介紹</h3></el-col
+              >
               <el-col :span="18"
                 ><el-input
-                  v-model="inputIntroduce"
+                  v-model="data.introduce"
                   :autosize="{ minRows: 2 }"
                   type="textarea"
                 ></el-input
               ></el-col>
-              <el-col :span="4" :offset="2" class="newProduct-title"><h3>圖片</h3></el-col>
+              <el-col :span="4" :offset="2" class="newProduct-title"
+                ><h3>圖片</h3></el-col
+              >
               <el-col :span="18">
                 <el-upload
                   class="avatar-uploader"
+                  ref="uploadRef"
                   :http-request="uploadSumbit"
-                  multiple
+                  :auto-upload="false"
+                  :limit="1"
                   list-type="picture-card"
                   v-model:file-list="files"
-                  :on-change="handleChange"
                 >
                   <template #trigger>
                     <img v-if="imageUrl" :src="imageUrl" class="avatar" />
@@ -235,8 +268,14 @@ const activePage = ref("manage");
                 </el-upload>
               </el-col>
 
-              <el-col class="updateButtonCol">
-                <el-button @click="console.log(files)" class="updateButton"
+              <el-col class="uploadButtonCol">
+                <el-button @click="uploadRef.submit()" class="uploadButton"
+                  >圖片提交</el-button
+                >
+                <el-button @click="console.log(files[0].url)" class="uploadButton"
+                  >debug</el-button
+                >
+                <el-button @click="uploadEvent" class="uploadButton"
                   >上傳</el-button
                 >
               </el-col>
@@ -392,6 +431,9 @@ const activePage = ref("manage");
   margin: 5% 0;
   padding: 2%;
 }
+::v-deep .el-tabs__nav {
+  padding: 10px 20px;
+}
 .tabs-label {
   font: 400 24px Helvetica;
   margin: 0 10px;
@@ -410,7 +452,7 @@ const activePage = ref("manage");
   align-items: center;
   margin-bottom: 20px;
 }
-.newProduct-row .el-col .newProduct-title{
+.newProduct-row .el-col .newProduct-title {
   justify-content: center;
 }
 .newProduct-row .el-input,
@@ -418,15 +460,15 @@ const activePage = ref("manage");
   width: 50%;
 }
 
-.avatar-uploader{
+.avatar-uploader {
   padding: 20px 0;
 }
 
-.newProduct-row .updateButtonCol {
+.newProduct-row .uploadButtonCol {
   justify-content: center;
   margin: 30px 0;
 }
-.newProduct-row .updateButtonCol .updateButton {
+.newProduct-row .uploadButtonCol .uploadButton {
   background-color: aquamarine;
   color: #000;
   font: 700 18px Helvetica;

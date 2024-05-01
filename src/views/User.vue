@@ -187,8 +187,8 @@ const receiptVisible = ref(false);
   display: flex;
   justify-content: start;
   align-content: center;
-  font: 400 28px Helvetica;
-  padding: 20px;
+  font: 400 24px Helvetica;
+  padding: 10px 20px;
 }
 .user-header .el-icon {
   font-size: 30px;
