@@ -1,14 +1,12 @@
 <script setup>
 import { ref } from "vue";
-const registerAccount = ref("");
-const registerPassword = ref("");
-const registerMail = ref("");
-const registerPhone = ref("");
+import { ElMessage } from "element-plus";
 import { useRouter } from "vue-router";
 const router = useRouter();
-const toLogin = () => {
-  router.push("/login");
-};
+const routerToPage = (page)=>{
+  router.push(`/${page}`)
+}
+
 import { postApi } from "../api";
 const apiNames = {
   register: "/user/register",
@@ -19,13 +17,28 @@ const data = ref({
   name: "",
   password: "",
 });
+
+const registerFailed = () => {
+  ElMessage({
+    message: "帳號已存在",
+    type: "error",
+    plain: true,
+    offset: 85,
+    duration: 1500,
+  });
+};
+
 const registerEvent = async () => {
-  const res = await postApi(apiNames.register, data.value);
-  console.log(res);
-  data.value.account = "";
-  data.value.confirm_password = "";
-  data.value.name = "";
-  data.value.password = "";
+  try {
+    const res = await postApi(apiNames.register, data.value);
+    console.log(res);
+    data.value.account = "";
+    data.value.confirm_password = "";
+    data.value.name = "";
+    data.value.password = "";
+  } catch (error) {
+    registerFailed();
+  }
 };
 </script>
 
@@ -34,8 +47,6 @@ const registerEvent = async () => {
     <el-main>
       <el-row>
         <el-col class="defaultCol" :span="8" :xs="0" :sm="6" :md="8"></el-col>
-
-        <!-- 註冊col -->
         <el-col
           class="registerCol"
           :xs="{ span: 24, offset: 0 }"
@@ -45,7 +56,7 @@ const registerEvent = async () => {
           :offset="1"
         >
           <el-row>
-            <el-col class="registerTextCol" style="text-align: start">
+            <el-col class="registerTextCol">
               <span class="registerText">註冊 Register</span>
             </el-col>
             <el-col>
@@ -90,7 +101,7 @@ const registerEvent = async () => {
             </el-col>
             <el-divider />
             <el-col class="returnButtonCol">
-              <el-button class="returnButton" @click="toLogin"
+              <el-button class="returnButton" @click="routerToPage('login')"
                 >返回登入</el-button
               >
             </el-col>
@@ -103,7 +114,7 @@ const registerEvent = async () => {
 <style scoped>
 .el-row {
   border-radius: 20px;
-  margin-top: 5%;
+  margin: 5% 0;
 }
 .el-col {
   color: black;
@@ -116,9 +127,11 @@ const registerEvent = async () => {
   border: 2px solid rgba(75, 82, 96, 0.3);
   padding: 20px 40px;
   border-radius: 10px;
+  box-shadow: 0 0 10px #9c9c9c;
 }
 .registerTextCol {
   margin-bottom: 20px;
+  padding-bottom: 20px;
   border-bottom: 1px solid #000;
 }
 .registerText {
@@ -131,6 +144,7 @@ const registerEvent = async () => {
   color: #000;
   box-sizing: content-box;
   padding: 5px;
+  box-shadow: 0 0 10px #9c9c9c;
 }
 
 .el-input {

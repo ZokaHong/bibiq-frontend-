@@ -1,27 +1,41 @@
 <script setup>
 import { ref } from "vue";
+import { ElMessage } from "element-plus";
 import { useRouter } from "vue-router";
 const router = useRouter();
-const toRegister = () => {
-  router.push("/register");
+const routerToPage = (page) => {
+  router.push(`/${page}`);
 };
+
 import { postApi } from "../api/index";
 const apiNames = {
-  login: "/user/login"
+  login: "/user/login",
 };
 const data = ref({
   account: "",
   password: "",
 });
+const loginFailed = () => {
+  ElMessage({
+    message: "帳號或密碼錯誤",
+    type: "error",
+    plain: true,
+    offset: 85,
+    duration: 1500,
+  });
+};
+
 const loginEvent = () => {
   postApi(apiNames.login, data.value)
     .then((response) => {
       localStorage.setItem("token", response.data.token);
-      data.value.account = ''
-      data.value.password = ''
+      data.value.account = "";
+      data.value.password = "";
+      routerToPage("home");
     })
     .catch((error) => {
       console.error(error.response.data);
+      loginFailed();
     });
 };
 </script>
@@ -31,7 +45,6 @@ const loginEvent = () => {
     <el-main>
       <el-row>
         <el-col class="defaultCol" :span="8" :xs="0" :sm="6" :md="8"></el-col>
-        <!-- 登入col -->
         <el-col
           class="loginCol"
           :xs="{ span: 24, offset: 0 }"
@@ -40,11 +53,11 @@ const loginEvent = () => {
           :span="6"
           :offset="1"
         >
-          <!-- 登入col上半部 -->
           <el-row>
-            <el-col class="loginTextCol" style="text-align: start">
+            <el-col class="loginTextCol">
               <span class="loginText">登入 Login</span>
             </el-col>
+
             <el-col>
               <el-input
                 v-model="data.account"
@@ -81,10 +94,11 @@ const loginEvent = () => {
             </el-col> -->
           </el-row>
           <el-divider />
-          <!-- 登入col下半部 -->
           <el-row>
             <el-col class="createAccountButtonCol">
-              <el-button class="createAccountButton" @click="toRegister"
+              <el-button
+                class="createAccountButton"
+                @click="routerToPage('register')"
                 >創建帳號</el-button
               >
             </el-col>
@@ -110,7 +124,7 @@ const loginEvent = () => {
 <style scoped>
 .el-row {
   border-radius: 20px;
-  margin-top: 5%;
+  margin: 5% 0;
 }
 .el-col {
   color: black;
@@ -123,9 +137,11 @@ const loginEvent = () => {
   border: 2px solid rgba(75, 82, 96, 0.3);
   padding: 20px 40px;
   border-radius: 10px;
+  box-shadow: 0 0 10px #9c9c9c;
 }
 .loginTextCol {
   margin-bottom: 20px;
+  padding-bottom: 20px;
   border-bottom: 1px solid #000;
 }
 .loginText {
@@ -134,10 +150,11 @@ const loginEvent = () => {
 
 .el-button {
   background-color: rgba(109, 179, 175, 0.4);
-  border: 2px solid rgba(75, 82, 96, 0.3);
+  border: 2px solid rgba(100, 100, 100, 0.3);
   color: #000;
   box-sizing: content-box;
-  padding: 5px;
+  padding: 4px 8px;
+  box-shadow: 0 0 10px #9c9c9c;
 }
 
 .el-input {

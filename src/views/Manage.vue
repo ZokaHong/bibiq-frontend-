@@ -33,15 +33,13 @@ import { Plus } from "@element-plus/icons-vue";
 
 const imageUrl = "";
 
-const uploadRef = ref();
 const files = ref([]);
 
-const formData = new FormData();
 const uploadSumbit = (options) => {
-  console.log('提交')
-  console.log(options)
+  console.log("提交");
+  console.log(options);
+  data.file = options.file;
 };
-
 
 const activePage = ref("manage");
 
@@ -56,9 +54,12 @@ const data = ref({
   name: "",
   price: "",
   stock: "",
+  file: "",
 });
 
 const uploadEvent = async () => {
+  const formData = new FormData();
+  formData.append("file", data.file);
   const res = await postApi(apiNames.product, data.value);
   console.log(res);
   data.value.file_path = "";
@@ -66,6 +67,7 @@ const uploadEvent = async () => {
   data.value.name = "";
   data.value.price = "";
   data.value.stock = "";
+  data.value.file = "";
 };
 </script>
 <template>
@@ -252,9 +254,7 @@ const uploadEvent = async () => {
               <el-col :span="18">
                 <el-upload
                   class="avatar-uploader"
-                  ref="uploadRef"
                   :http-request="uploadSumbit"
-                  :auto-upload="false"
                   :limit="1"
                   list-type="picture-card"
                   v-model:file-list="files"
@@ -269,12 +269,6 @@ const uploadEvent = async () => {
               </el-col>
 
               <el-col class="uploadButtonCol">
-                <el-button @click="uploadRef.submit()" class="uploadButton"
-                  >圖片提交</el-button
-                >
-                <el-button @click="console.log(files[0].url)" class="uploadButton"
-                  >debug</el-button
-                >
                 <el-button @click="uploadEvent" class="uploadButton"
                   >上傳</el-button
                 >
@@ -473,7 +467,7 @@ const uploadEvent = async () => {
   color: #000;
   font: 700 18px Helvetica;
   border-radius: 10px;
-  box-shadow: 0px 0px 10px #000;
+  box-shadow: 0 0 10px #9c9c9c;
   padding: 20px;
 }
 @media (max-width: 772px) {

@@ -18,19 +18,19 @@ const router = useRouter();
 
 <style scoped>
 .slide-enter-active {
-  transition: opacity .5s, transform .8s;
+  transition: opacity 0.5s, transform 0.8s;
 }
-.slide-enter-from{
+.slide-enter-from {
   opacity: 0.4;
   transform: translateY(25%);
 }
-@media (max-width: 772px){
+@media (max-width: 772px) {
   .slide-enter-active {
-  transition: opacity .5s, transform .8s;
-}
-.slide-enter-from{
-  opacity: 0.4;
-  transform: translateX(50%);
-}
+    transition: opacity 0.5s, transform 0.8s;
+  }
+  .slide-enter-from {
+    opacity: 0.4;
+    transform: translateX(50%);
+  }
 }
 </style>

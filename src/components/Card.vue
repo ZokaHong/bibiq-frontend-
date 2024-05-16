@@ -57,7 +57,7 @@ const toDetail = (id) => {
       >
         <el-card>
           <template #header
-            ><b>{{ item.name }}</b></template
+            ><span style="font: 700 24px '';">{{ item.name }}</span></template
           >
           <el-row>
             <!-- <el-col style="display:flex; align-items: center; justify-content: start;" :span="24"><h2>{{item.name}}</h2></el-col> -->
@@ -87,7 +87,9 @@ const toDetail = (id) => {
               style="display: flex; align-items: center; justify-content: end"
               :span="8"
               :offset="16"
-              ><el-button @click="toDetail(item.id)">查看更多</el-button></el-col
+              ><el-button @click="toDetail(item.id)"
+                >查看更多</el-button
+              ></el-col
             >
           </el-row>
         </el-card>
@@ -124,4 +126,6 @@ const toDetail = (id) => {
   justify-content: center;
   align-items: center;
 }
+
+
 </style>

@@ -13,16 +13,17 @@ const colors = ref([
   },
 ]);
 
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 const route = useRoute();
 const id = parseInt(route.query.id);
+const router = useRouter();
 
 const isLoading = ref(false);
 
 import { getApi } from "../api/index";
 
 const apiNames = {
-  product: "/product",
+  product: `/product/${id}`,
 };
 
 const detailList = ref({
@@ -33,13 +34,12 @@ const detailList = ref({
   price: "",
   stock: "",
 });
-const matchedObject = ref();
+// const matchedObject = ref();
 onMounted(() => {
   getApi(apiNames.product)
     .then((response) => {
-      detailList.value = response.data.product;
-      matchedObject.value = detailList.value.find((item) => item.id === id);
-
+      [detailList.value] = response.data.product;
+      // matchedObject.value = detailList.value.find((item) => item.id === id);
       // if (matchedObject) {
       //   console.log(matchedObject.value);
       // } else {
@@ -53,31 +53,30 @@ onMounted(() => {
       isLoading.value = true;
     });
 });
+const buyNowEvent = () => {
+
+  router.push("/shoppingcart");
+};
+const buyLaterEvent = () => {
+
+};
+
 </script>
 <template>
   <el-container>
-    <!-- <el-row class="sort-row">
-      <el-col :span="4">分類1</el-col>
-      <el-col :span="4">分類2</el-col>
-      <el-col :span="4">分類3</el-col>
-      <el-col :span="4">分類4</el-col>
-      <el-col :span="4">分類5</el-col>
-      <el-col :span="4">分類6</el-col>
-    </el-row> -->
-    <el-row
-      class="content-row"
-      :gutter="20"
-      style="padding: 20px"
-      v-if="isLoading"
-    >
-      <el-col :span="24" :md="8">
-        <el-row style="display: flex; align-items: center; margin-top: 45px">
+    <el-row class="content-row" style="padding: 20px" v-if="isLoading">
+      <el-col
+        :span="24"
+        :md="8"
+        style="display: flex; justify-content: center; align-items: center"
+      >
+        <el-row>
           <el-col>
             <el-image
-              :src="matchedObject.file_path"
+              :src="detailList.file_path"
               style="
-                width: 180px;
-                height: 180px;
+                width: 220px;
+                height: 220px;
                 border: 1px #000 solid;
                 padding: 10px;
               "
@@ -85,20 +84,17 @@ onMounted(() => {
               class="item-image"
             />
           </el-col>
-          <!-- <el-col style="margin-top: 20px">
-            <span class="item-event">discount: 無</span>
-          </el-col> -->
         </el-row>
       </el-col>
-      <el-col :span="24" :md="16" style="margin-top: 20px; margin-bottom: 30px">
+      <el-col :span="24" :md="16" style="padding: 20px 30px">
         <el-row style="text-align: start">
           <el-col :span="16">
             <el-row>
               <el-col>
-                <h3>{{ matchedObject.name }}</h3>
+                <h3>{{ detailList.name }}</h3>
               </el-col>
               <el-col
-                ><span>{{ matchedObject.introduce }}</span></el-col
+                ><span>{{ detailList.introduce }}</span></el-col
               >
             </el-row>
           </el-col>
@@ -130,10 +126,6 @@ onMounted(() => {
               >
             </div>
           </el-col>
-          <!-- <el-col :span="24" :md="0">
-            <h3><a href="#">3Q鍋具</a> 不沾深平底鍋</h3>
-          </el-col> -->
-
           <el-col>
             <el-row style="margin: 30px 0">
               <!-- <el-col :span="24" :sm="12" :lg="8" style="margin-top: 10px">
@@ -161,7 +153,7 @@ onMounted(() => {
                       font-style: italic;
                       margin-left: 20px;
                     "
-                    >{{ matchedObject.price }}</span
+                    >{{ detailList.price }}</span
                   >
                   <span style="font: 700 14px Helvetica; margin-left: 3px"
                     >元</span
@@ -172,15 +164,20 @@ onMounted(() => {
                 <span>數量: </span>
                 <el-select
                   v-model="count"
-                  size="small"
+                  filterable
+                  no-match-text="無符合數量"
+                  placeholder="請選擇"
+                  fit-input-width
                   style="width: 100px; margin-left: 20px"
                 >
                   <el-option
-                    v-for="item in matchedObject.stock"
+                    v-for="item in detailList.stock"
                     :key="item"
                     :label="item"
                     :value="item"
-                  ></el-option> </el-select
+                    style="text-align: center"
+                  >
+                  </el-option> </el-select
               ></el-col>
 
               <el-col :span="24" :lg="8" style="margin: 10px 0">
@@ -193,7 +190,7 @@ onMounted(() => {
                       font-style: italic;
                       margin-left: 20px;
                     "
-                    >{{ matchedObject.price * count }}</span
+                    >{{ detailList.price * count }}</span
                   >
                   <span style="font: 700 14px Helvetica; margin-left: 3px"
                     >元</span
@@ -202,43 +199,23 @@ onMounted(() => {
               >
             </el-row>
           </el-col>
-          <el-divider />
-          <el-col :xs="0" :sm="0" :md="24">
-            <el-row style="width: 100%; text-align: center">
-              <el-col :span="8"
-                ><el-button type="warning">查看優惠券</el-button></el-col
-              >
-              <el-col :span="8"
-                ><el-button type="danger">直接購買</el-button></el-col
-              >
-              <el-col :span="8"
-                ><el-button type="primary">加入購物車</el-button></el-col
-              >
-            </el-row>
-          </el-col>
         </el-row>
-      </el-col>
-    </el-row>
-
-    <el-row class="fixed-footer-row">
-      <el-col :xs="24" :sm="24" :span="0">
+        <el-divider />
         <el-row style="width: 100%; text-align: center">
-          <el-col :span="8"
-            ><el-button type="warning" size="small"
-              >查看優惠券</el-button
+          <el-col :span="12"
+            ><el-button type="danger" @click="buyNowEvent"
+              >直接購買</el-button
             ></el-col
           >
-          <el-col :span="8"
-            ><el-button type="danger" size="small">直接購買</el-button></el-col
-          >
-          <el-col :span="8"
-            ><el-button type="primary" size="small"
+          <el-col :span="12"
+            ><el-button type="primary" @click="buyLaterEvent"
               >加入購物車</el-button
             ></el-col
           >
         </el-row>
       </el-col>
     </el-row>
+
   </el-container>
 </template>
 <style scoped>
@@ -251,21 +228,25 @@ onMounted(() => {
 .content-row {
   width: 80%;
   background-color: #ffffff;
-  margin-top: 5%;
+  margin: 5% 0;
 }
 
-.fixed-footer-row {
-  width: 100%;
-  background-color: #ffffff;
-  position: fixed;
-  bottom: 0;
-  padding: 20px;
-  z-index: 2;
-  border-top: 2px solid #000;
+.el-button {
+  border: 2px solid rgba(100, 100, 100, 0.3);
+  color: #ffffff;
+  box-sizing: content-box;
+  width: 100px;
+  font: 700 20px "";
 }
-@media (min-width: 772px) {
-  .fixed-footer-row {
-    display: none;
-  }
+
+@media (max-width: 772px) {
+  .el-button {
+  border: 2px solid rgba(100, 100, 100, 0.3);
+  color: #ffffff;
+  box-sizing: content-box;
+  width: 50px;
+  font: 700 16px "";
+  padding: 4px 16px;
 }
+} 
 </style>

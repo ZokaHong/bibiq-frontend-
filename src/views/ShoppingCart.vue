@@ -24,6 +24,7 @@ const options = [
         </el-link>
         <span style="margin-left: 20px">購物車</span>
       </el-col>
+      <el-divider/>
       <el-col :span="24" class="shoppingCart-main">
         <el-row>
           <el-col
@@ -135,7 +136,7 @@ const options = [
           </el-col>
         </el-row>
       </el-col>
-      <el-col :span="24" class="shoppingCart-footer" style="margin-top: 50px">
+      <el-col :span="24" class="shoppingCart-footer">
         <el-row>
           <el-col :span="6">
             <el-row>
@@ -153,13 +154,7 @@ const options = [
           <el-col
             :span="6"
             style="text-align: center; margin-top: auto; margin-bottom: auto"
-          >
-            <el-link :underline="false">優惠券</el-link>
-          </el-col>
-          <el-col
-            :span="6"
-            style="text-align: center; margin-top: auto; margin-bottom: auto"
-            ><span>總金額 $</span></el-col
+            ><span>總金額 $100</span></el-col
           >
           <el-col
             :span="6"
@@ -180,14 +175,15 @@ const options = [
 .shoppingCart-row {
   width: 80%;
   background-color: #fff;
-  margin-top: 5%;
+  margin: 5% 0;
+  padding: 2%;
 }
 .shoppingCart-header {
   display: flex;
   justify-content: start;
   align-content: center;
   font: 400 28px Helvetica;
-  padding: 20px;
+  padding: 5px 10px;
 }
 .shoppingCart-header .el-icon {
   font-size: 30px;
@@ -208,20 +204,27 @@ const options = [
 .countButton span {
   width: 10px;
 }
+.shoppingCart-main{
+  position: relative;
+  padding-bottom: 100px;
+}
+
 .shoppingCart-footer {
   background-color: #ccf2f5;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
 }
 @media (max-width: 772px) {
   .shoppingCart-header {
-    font: 400 18px Helvetica;
+    font: 400 24px Helvetica;
     padding: 10px;
   }
   .shoppingCart-header .el-icon {
-    font-size: 18px;
+    font-size: 24px;
   }
-  .shoppingCart-row {
-    width: 90%;
-  }
+
   .item-img {
     width: 100px;
     height: 100px;

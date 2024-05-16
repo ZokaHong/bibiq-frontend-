@@ -1,24 +1,5 @@
 <script setup>
 import { ref, watch } from "vue";
-const activeuserTab = ref("0");
-const selectOrderStatus = ref("");
-const optionsOrderStatus = ref([
-  { name: "待處理", value: "1" },
-  { name: "已成立", value: "2" },
-  { name: "未成立", value: "3" },
-]);
-const selectPayStatus = ref("");
-const optionsPayStatus = ref([
-  { name: "未付款", value: "1" },
-  { name: "已付款", value: "2" },
-  { name: "延遲撥款", value: "3" },
-]);
-const selectShippingStatus = ref("");
-const optionsShippingStatus = ref([
-  { name: "未出貨", value: "1" },
-  { name: "出貨中", value: "2" },
-  { name: "已出貨", value: "3" },
-]);
 
 const tableData = ref([
   {
@@ -45,16 +26,18 @@ const tableData = ref([
 
 const shippingOptions = ["未出貨", "出貨中", "已出貨"];
 
-const textColor = ref(["red", "blue", "green"]);
-
 const receiptVisible = ref(false);
 </script>
 <template>
   <el-container>
     <el-row class="user-row">
       <el-col class="user-header">
-        <span>訂單詳情</span>
+        <el-link :underline="false" href="#">
+          <el-icon><Back /></el-icon>
+        </el-link>
+        <span style="margin-left: 20px">訂單詳情</span>
       </el-col>
+      <el-divider/>
       <el-col class="user-main">
         <el-table :data="tableData">
           <el-table-column
@@ -76,13 +59,13 @@ const receiptVisible = ref(false);
           <el-table-column label="付款狀態">
             <template #default="scope">
               <div style="display: flex; align-items: center">
-                  <span class="red">未付款</span>
+                <span class="red">未付款</span>
               </div></template
             >
           </el-table-column>
           <el-table-column label="出貨狀態">
             <template #default="scope">
-              <span class="red">{{shippingOptions[0]}}</span>
+              <span class="red">{{ shippingOptions[0] }}</span>
             </template>
           </el-table-column>
           <el-table-column prop="receipt" label="明細"
@@ -187,20 +170,20 @@ const receiptVisible = ref(false);
   display: flex;
   justify-content: start;
   align-content: center;
-  font: 400 24px Helvetica;
-  padding: 10px 20px;
+  font: 400 28px Helvetica;
+  padding: 5px 10px;
 }
 .user-header .el-icon {
   font-size: 30px;
 }
 
-.blue {
-  color: blue;
-}
-.red {
-  color: red;
-}
-.green {
-  color: green;
+@media (max-width: 772px) {
+  .user-header {
+    font: 400 24px Helvetica;
+    padding: 10px;
+  }
+  .user-header .el-icon {
+    font-size: 24px;
+  }
 }
 </style>

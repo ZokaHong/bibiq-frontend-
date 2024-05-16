@@ -7,8 +7,10 @@ const searchInput = ref("");
 
 const inputAccount = ref("");
 const inputPassword = ref("");
-const language = ref("繁體中文");
 
+const initialLogin = ref(true)
+
+const language = ref("繁體中文");
 function changeLanguage(item) {
   language.value = item;
 }
@@ -56,27 +58,29 @@ function closeDrawer(page) {
                 <el-icon size="25px"><Search /></el-icon>
               </el-button>
             </el-col>
+            
+            <el-col :span="6">
+              <el-button text @click="routerToPage('user')">使用者</el-button>
+              <el-button text @click="routerToPage('manage')">管理者</el-button>
+            </el-col>
+            <el-col :span="4" v-if="initialLogin">
+              <el-button style="width: 60%" text @click="routerToPage('login')">
+                <span>登入</span>
+              </el-button>
+            </el-col>
+            <el-col :span="4" v-else>
+              <el-button style="width: 60%" text @click="routerToPage('login')">
+                <span>登出</span>
+              </el-button>
+            </el-col>
             <el-col :span="2">
               <el-button
                 style="width: 35px"
                 text
                 @click="routerToPage('shoppingCart')"
               >
-                <el-icon size="25px"><ShoppingCart /></el-icon>
+                <el-icon size="30px"><ShoppingCart /></el-icon>
               </el-button>
-            </el-col>
-            <el-col :span="4">
-              <el-button style="width: 60%" text @click="routerToPage('login')">
-                <!-- <el-avatar
-                  :icon="UserFilled"
-                  style="width: 25px; height: 25px; margin-right: 10px"
-                /> -->
-                <span>登入/註冊</span>
-              </el-button>
-            </el-col>
-            <el-col :span="6">
-              <el-button text @click="routerToPage('user')">使用者</el-button>
-              <el-button text @click="routerToPage('manage')">管理者</el-button>
             </el-col>
             <el-col :span="5">
               <el-dropdown trigger="click" class="dropdown-box">
@@ -85,7 +89,7 @@ function closeDrawer(page) {
                 >
                   <img
                     src="../assets/globe-icon-96x96-6gmgebx3.png"
-                    width="22px"
+                    width="24px"
                     alt="globel"
                   />
                   <span style="margin-left: 10px">{{ language }}</span>
