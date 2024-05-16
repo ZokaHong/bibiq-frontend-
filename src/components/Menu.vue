@@ -1,14 +1,8 @@
 <script setup>
 import { ref } from "vue";
 import { Menu } from "@element-plus/icons-vue";
-import { UserFilled } from "@element-plus/icons-vue";
-
 const searchInput = ref("");
-
-const inputAccount = ref("");
-const inputPassword = ref("");
-
-const initialLogin = ref(true)
+const initialLogin = ref(true);
 
 const language = ref("繁體中文");
 function changeLanguage(item) {
@@ -58,7 +52,7 @@ function closeDrawer(page) {
                 <el-icon size="25px"><Search /></el-icon>
               </el-button>
             </el-col>
-            
+
             <el-col :span="6">
               <el-button text @click="routerToPage('user')">使用者</el-button>
               <el-button text @click="routerToPage('manage')">管理者</el-button>
@@ -132,8 +126,15 @@ function closeDrawer(page) {
               <el-menu-item index="1" @click="closeDrawer('shoppingCart')">
                 <span>查看購物車</span>
               </el-menu-item>
-              <el-menu-item index="2" @click="closeDrawer('login')">
+              <el-menu-item
+                v-show="isLogin"
+                index="2"
+                @click="closeDrawer('login')"
+              >
                 <span>登入/註冊</span>
+              </el-menu-item>
+              <el-menu-item v-show="!isLogin" index="6">
+                <span>aaa</span>
               </el-menu-item>
               <el-menu-item index="3" @click="closeDrawer('user')">
                 <span>使用者</span>

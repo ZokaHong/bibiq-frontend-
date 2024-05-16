@@ -1,18 +1,6 @@
 <script setup>
 import { ref, onMounted } from "vue";
-const itemColors = ref("");
 const count = ref("");
-const colors = ref([
-  {
-    value: "#bc8aae",
-    label: "粉色",
-  },
-  {
-    value: "#000000",
-    label: "黑色",
-  },
-]);
-
 import { useRoute, useRouter } from "vue-router";
 const route = useRoute();
 const id = parseInt(route.query.id);
@@ -34,18 +22,11 @@ const detailList = ref({
   price: "",
   stock: "",
 });
-// const matchedObject = ref();
+
 onMounted(() => {
   getApi(apiNames.product)
     .then((response) => {
       [detailList.value] = response.data.product;
-      // matchedObject.value = detailList.value.find((item) => item.id === id);
-      // if (matchedObject) {
-      //   console.log(matchedObject.value);
-      // } else {
-      //   console.log("未找到匹配的对象");
-      // }
-
       isLoading.value = true;
     })
     .catch((error) => {
@@ -54,13 +35,9 @@ onMounted(() => {
     });
 });
 const buyNowEvent = () => {
-
   router.push("/shoppingcart");
 };
-const buyLaterEvent = () => {
-
-};
-
+const buyLaterEvent = () => {};
 </script>
 <template>
   <el-container>
@@ -128,21 +105,6 @@ const buyLaterEvent = () => {
           </el-col>
           <el-col>
             <el-row style="margin: 30px 0">
-              <!-- <el-col :span="24" :sm="12" :lg="8" style="margin-top: 10px">
-                <span>選項: </span>
-                <el-select
-                  v-model="itemColors"
-                  size="small"
-                  style="width: 100px; margin-left: 20px"
-                >
-                  <el-option
-                    v-for="item in colors"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value"
-                  ></el-option>
-                </el-select>
-              </el-col> -->
               <el-col :span="24" :lg="8" style="margin: 10px 0">
                 <div>
                   <span>單價: </span>
@@ -215,7 +177,6 @@ const buyLaterEvent = () => {
         </el-row>
       </el-col>
     </el-row>
-
   </el-container>
 </template>
 <style scoped>
@@ -241,12 +202,12 @@ const buyLaterEvent = () => {
 
 @media (max-width: 772px) {
   .el-button {
-  border: 2px solid rgba(100, 100, 100, 0.3);
-  color: #ffffff;
-  box-sizing: content-box;
-  width: 50px;
-  font: 700 16px "";
-  padding: 4px 16px;
+    border: 2px solid rgba(100, 100, 100, 0.3);
+    color: #ffffff;
+    box-sizing: content-box;
+    width: 50px;
+    font: 700 16px "";
+    padding: 4px 16px;
+  }
 }
-} 
 </style>
