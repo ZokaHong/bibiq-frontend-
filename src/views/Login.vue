@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from "vue";
+import { ref, defineEmits } from "vue";
 import { ElMessage } from "element-plus";
 import { useRouter } from "vue-router";
 const router = useRouter();
@@ -15,15 +15,15 @@ const data = ref({
   account: "",
   password: "",
 });
-const loginFailed = () => {
-  ElMessage({
-    message: "帳號或密碼錯誤",
-    type: "error",
-    plain: true,
-    offset: 85,
-    duration: 1500,
-  });
-};
+const message = ref({
+  message: "",
+  type: "",
+  plain: true,
+  offset: 85,
+  duration: 1500,
+});
+
+const emit = defineEmits(["getLoginStauts"]);
 
 const loginEvent = () => {
   postApi(apiNames.login, data.value)
@@ -31,11 +31,23 @@ const loginEvent = () => {
       localStorage.setItem("token", response.data.token);
       data.value.account = "";
       data.value.password = "";
+      message.value.message = "登入成功";
+      message.value.type = "success";
       routerToPage("home");
+      emit("getLoginStauts", message.value.type);
+      return ElMessage(message.value);
     })
     .catch((error) => {
-      console.error(error.response.data);
-      loginFailed();
+      console.error(error);
+      if (data.value.account === "" || data.value.password === "") {
+        message.value.message = "請輸入帳號 / 密碼";
+        message.value.type = "warning";
+      } else {
+        message.value.message = "帳號或密碼錯誤";
+        message.value.type = "error";
+      }
+      emit("getLoginStauts", message.value.type);
+      return ElMessage(message.value);
     });
 };
 </script>

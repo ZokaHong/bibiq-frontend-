@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch } from "vue";
+import { ref } from "vue";
 
 const tableData = ref([
   {
@@ -27,6 +27,28 @@ const tableData = ref([
 const shippingOptions = ["未出貨", "出貨中", "已出貨"];
 
 const receiptVisible = ref(false);
+
+import { getApi } from "../api/index";
+import { ElDivider } from "element-plus";
+const apiNames = {
+  order: "/order",
+};
+const data = ref([
+  {
+    main: {
+      id: "",
+      date: "",
+      user_name: "",
+    },
+    sub: {},
+  },
+]);
+
+console.log(data.value);
+
+getApi(apiNames.order).then((response) => {
+  console.log(response);
+});
 </script>
 <template>
   <el-container>
@@ -37,7 +59,7 @@ const receiptVisible = ref(false);
         </el-link>
         <span style="margin-left: 20px">訂單詳情</span>
       </el-col>
-      <el-divider/>
+      <el-divider />
       <el-col class="user-main">
         <el-table :data="tableData">
           <el-table-column
@@ -70,13 +92,8 @@ const receiptVisible = ref(false);
           </el-table-column>
           <el-table-column prop="receipt" label="明細"
             ><el-link @click="receiptVisible = true"
-              ><el-icon><Document /></el-icon></el-link
+              ><el-icon size="28px"><Document /></el-icon></el-link
           ></el-table-column>
-          <!-- <el-table-column label="編輯">
-            <el-link>
-              <el-icon><EditPen /></el-icon>
-            </el-link>
-          </el-table-column> -->
         </el-table>
 
         <el-dialog

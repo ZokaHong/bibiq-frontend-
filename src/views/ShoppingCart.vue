@@ -24,7 +24,7 @@ const options = [
         </el-link>
         <span style="margin-left: 20px">購物車</span>
       </el-col>
-      <el-divider/>
+      <el-divider />
       <el-col :span="24" class="shoppingCart-main">
         <el-row>
           <el-col
@@ -89,15 +89,6 @@ const options = [
                 ><span>$ {{ defaultOption.price }}</span></el-col
               >
               <el-col :xs="8" :span="24" class="countCol">
-                <!-- <el-select v-model="defaultOption.count">
-                  <el-option
-                    v-for="item in parseInt(defaultOption.stock)"
-                    :key="item"
-                    :label="item"
-                    :value="item"
-                    >{{ item }}</el-option
-                  >
-                </el-select> -->
                 <el-button
                   class="countButton"
                   @click="
@@ -126,7 +117,7 @@ const options = [
               <el-col :span="24"
                 ><span>商品庫存: {{ defaultOption.stock }}</span></el-col
               >
-              <el-col :xs="0" :span="24"><span>注意須知:</span></el-col>
+              <!-- <el-col :xs="0" :span="24"><span>注意須知:</span></el-col> -->
             </el-row></el-col
           >
           <el-col :xs="0" :sm="3" :span="2">
@@ -204,7 +195,7 @@ const options = [
 .countButton span {
   width: 10px;
 }
-.shoppingCart-main{
+.shoppingCart-main {
   position: relative;
   padding-bottom: 100px;
 }

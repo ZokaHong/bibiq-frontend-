@@ -1,16 +1,30 @@
 <script setup>
+import { ref } from "vue";
 import Menu from "./components/Menu.vue";
 import Footer from "./components/Footer.vue";
 import { RouterView } from "vue-router";
 import { useRouter } from "vue-router";
 const router = useRouter();
+
+const menu = ref(null);
+function getLoginStauts(type) {
+  menu.value.changeLoginStatus(type);
+}
+function searchEvent(data) {
+  homeView.value.createCard(data);
+}
+const homeView = ref(null);
 </script>
 
 <template>
-  <Menu />
+  <Menu ref="menu" @searchEvent="searchEvent" />
   <RouterView v-slot="{ Component }">
     <transition name="slide">
-      <component :is="Component" />
+      <component
+        :is="Component"
+        @getLoginStauts="getLoginStauts"
+        ref="homeView"
+      />
     </transition>
   </RouterView>
   <Footer />

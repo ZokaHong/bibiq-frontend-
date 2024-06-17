@@ -1,8 +1,52 @@
 <script setup>
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import { Menu } from "@element-plus/icons-vue";
 const searchInput = ref("");
-const initialLogin = ref(true);
+const isLoggedIn = ref(false);
+
+// const props = defineProps({
+//   loginStauts: { type: String, default: "" },
+// });
+
+// watch(
+//   () => props.loginStauts,
+//   (val) => {
+//     console.log("val", val);
+//     isLoggedIn.value = val === "success" ? true : false;
+//   }
+// );
+
+const changeLoginStatus = (val) => {
+  isLoggedIn.value = val === "success" ? true : false;
+};
+defineExpose({ changeLoginStatus });
+
+import { ElMessage, ElMessageBox } from "element-plus";
+
+const logoutEvent = () => {
+  ElMessageBox.confirm("<h2>確定要登出?</h2>", {
+    confirmButtonText: "確定",
+    cancelButtonText: "取消",
+    confirmButtonClass: "confirmButtonClass",
+    cancelButtonClass: "cancelButtonClass",
+    center: true,
+    dangerouslyUseHTMLString: true,
+  })
+    .then(() => {
+      isLoggedIn.value = false;
+      localStorage.removeItem("token");
+      ElMessage({
+        message: "登出成功",
+        type: "success",
+      });
+    })
+    .catch(() => {
+      ElMessage({
+        message: "登出失敗",
+        type: "error",
+      });
+    });
+};
 
 const language = ref("繁體中文");
 function changeLanguage(item) {
@@ -11,6 +55,50 @@ function changeLanguage(item) {
 
 const languageList = ref(["繁體中文", "简体中文", "English", "日本語"]);
 const drawer = ref(false);
+import { getApi } from "../api/index";
+
+// const searchEvent = () => {
+//   if (searchInput.value === "") return;
+//   const apiNames = {
+//     search: `/product/search/${searchInput.value}`,
+//   };
+//   getApi(apiNames.search)
+//     .then((response) => {
+//       if (response.data.product) {
+//         alert("查詢成功");
+//         localStorage.setItem(
+//           "searchData",
+//           JSON.stringify(response.data.product)
+//         );
+//         router.push("/");
+//       } else {
+//         alert("查無此產品");
+//       }
+//     })
+//     .catch((error) => {
+//       alert("查詢失敗");
+//     });
+// };
+
+const emit = defineEmits(["searchEvent"]);
+const searchEvent = () => {
+  if (searchInput.value === "") return;
+  const apiNames = {
+    search: `/product/search/${searchInput.value}`,
+  };
+  getApi(apiNames.search)
+    .then((response) => {
+      router.push("/");
+      if (response.data.product) {
+        emit("searchEvent", response.data.product);
+      } else {
+        alert("查無此產品");
+      }
+    })
+    .catch((error) => {
+      alert("查詢失敗");
+    });
+};
 
 import { useRouter } from "vue-router";
 const router = useRouter();
@@ -23,6 +111,31 @@ function closeDrawer(page) {
   routerToPage(page);
   drawer.value = false;
 }
+const logoutEventRwd = () => {
+  ElMessageBox.confirm("<h2>確定要登出?</h2>", {
+    confirmButtonText: "確定",
+    cancelButtonText: "取消",
+    confirmButtonClass: "confirmButtonClass",
+    cancelButtonClass: "cancelButtonClass",
+    center: true,
+    dangerouslyUseHTMLString: true,
+  })
+    .then(() => {
+      isLoggedIn.value = false;
+      localStorage.removeItem("token");
+      ElMessage({
+        message: "登出成功",
+        type: "success",
+      });
+      drawer.value = false;
+    })
+    .catch(() => {
+      ElMessage({
+        message: "登出失敗",
+        type: "error",
+      });
+    });
+};
 </script>
 <template>
   <el-container>
@@ -41,14 +154,18 @@ function closeDrawer(page) {
 
         <el-col :xs="0" :span="14" :offset="6">
           <el-row class="toolsMenu">
-            <el-col :span="7">
+            <el-col :span="10">
               <el-input
                 type="text"
                 v-model="searchInput"
                 style="width: 60%"
                 placeholder="Search"
               />
-              <el-button style="width: 35px; margin-left: 10px" text>
+              <el-button
+                style="width: 35px; margin-left: 10px"
+                text
+                @click="searchEvent"
+              >
                 <el-icon size="25px"><Search /></el-icon>
               </el-button>
             </el-col>
@@ -57,17 +174,17 @@ function closeDrawer(page) {
               <el-button text @click="routerToPage('user')">使用者</el-button>
               <el-button text @click="routerToPage('manage')">管理者</el-button>
             </el-col>
-            <el-col :span="4" v-if="initialLogin">
+            <el-col :span="4" v-if="!isLoggedIn">
               <el-button style="width: 60%" text @click="routerToPage('login')">
                 <span>登入</span>
               </el-button>
             </el-col>
             <el-col :span="4" v-else>
-              <el-button style="width: 60%" text @click="routerToPage('login')">
+              <el-button style="width: 60%" text @click="logoutEvent">
                 <span>登出</span>
               </el-button>
             </el-col>
-            <el-col :span="2">
+            <el-col :span="4">
               <el-button
                 style="width: 35px"
                 text
@@ -76,7 +193,7 @@ function closeDrawer(page) {
                 <el-icon size="30px"><ShoppingCart /></el-icon>
               </el-button>
             </el-col>
-            <el-col :span="5">
+            <!-- <el-col :span="5">
               <el-dropdown trigger="click" class="dropdown-box">
                 <div
                   style="display: flex; align-items: center; user-select: none"
@@ -98,7 +215,7 @@ function closeDrawer(page) {
                   </el-dropdown-menu>
                 </template>
               </el-dropdown>
-            </el-col>
+            </el-col> -->
           </el-row>
         </el-col>
 
@@ -126,23 +243,23 @@ function closeDrawer(page) {
               <el-menu-item index="1" @click="closeDrawer('shoppingCart')">
                 <span>查看購物車</span>
               </el-menu-item>
+              <el-menu-item index="2" @click="closeDrawer('user')">
+                <span>使用者</span>
+              </el-menu-item>
+              <el-menu-item index="3" @click="closeDrawer('manage')">
+                <span>管理者</span>
+              </el-menu-item>
               <el-menu-item
-                v-show="isLogin"
-                index="2"
+                v-if="!isLoggedIn"
+                index="4"
                 @click="closeDrawer('login')"
               >
                 <span>登入/註冊</span>
               </el-menu-item>
-              <el-menu-item v-show="!isLogin" index="6">
-                <span>aaa</span>
+              <el-menu-item v-else index="5" @click="logoutEventRwd">
+                <span>登出</span>
               </el-menu-item>
-              <el-menu-item index="3" @click="closeDrawer('user')">
-                <span>使用者</span>
-              </el-menu-item>
-              <el-menu-item index="4" @click="closeDrawer('manage')">
-                <span>管理者</span>
-              </el-menu-item>
-              <el-sub-menu index="5">
+              <!-- <el-sub-menu index="6">
                 <template #title>
                   <span style="font: 400 24px Helvetica">{{ language }}</span>
                 </template>
@@ -152,7 +269,7 @@ function closeDrawer(page) {
                   @click="changeLanguage(item)"
                   >{{ item }}</el-menu-item
                 >
-              </el-sub-menu>
+              </el-sub-menu> -->
             </el-menu>
           </el-drawer>
         </el-col>
@@ -160,7 +277,7 @@ function closeDrawer(page) {
     </el-header>
   </el-container>
 </template>
-<style scoped>
+<style>
 .el-header {
   width: 100%;
   height: 100%;
@@ -213,5 +330,14 @@ function closeDrawer(page) {
 
 .el-sub-menu .el-menu-item {
   justify-content: end;
+}
+
+.confirmButtonClass {
+  color: #000 !important;
+  background-color: #8bc5c5 !important;
+}
+.cancelButtonClass {
+  color: #000 !important;
+  background-color: #fff !important;
 }
 </style>

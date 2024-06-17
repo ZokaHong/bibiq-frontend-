@@ -8,7 +8,8 @@ const router = useRouter();
 
 const isLoading = ref(false);
 
-import { getApi } from "../api/index";
+import { getApi, postApi } from "../api/index";
+import { ElMessage } from "element-plus";
 
 const apiNames = {
   product: `/product/${id}`,
@@ -23,6 +24,14 @@ const detailList = ref({
   stock: "",
 });
 
+const message = ref({
+  message: "",
+  type: "",
+  plain: true,
+  offset: 85,
+  duration: 1500,
+});
+
 onMounted(() => {
   getApi(apiNames.product)
     .then((response) => {
@@ -35,9 +44,42 @@ onMounted(() => {
     });
 });
 const buyNowEvent = () => {
+  if (count.value === "") {
+    message.value.message = "請選擇數量";
+    message.value.type = "warning";
+    return ElMessage(message.value);
+  }
   router.push("/shoppingcart");
 };
-const buyLaterEvent = () => {};
+
+// const buyLaterEvent = () => {
+//   ElMessage({
+//     message: "已加入購物車",
+//     type: "success",
+//     plain: true,
+//     offset: 85,
+//     duration: 1500,
+//   });
+// };
+
+function buyLaterEvent() {
+  if (count.value === "") {
+    message.value.message = "請選擇數量";
+    message.value.type = "warning";
+    return ElMessage(message.value);
+  }
+
+  const apiStatus = "error";
+  if (apiStatus === "success") {
+    message.value.message = "已成功加入購物車";
+    message.value.type = "success";
+  } else {
+    message.value.message = "加入購物車失敗";
+    message.value.type = "error";
+  }
+
+  ElMessage(message.value);
+}
 </script>
 <template>
   <el-container>
@@ -170,7 +212,7 @@ const buyLaterEvent = () => {};
             ></el-col
           >
           <el-col :span="12"
-            ><el-button type="primary" @click="buyLaterEvent"
+            ><el-button type="primary" @click="buyLaterEvent()"
               >加入購物車</el-button
             ></el-col
           >

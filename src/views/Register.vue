@@ -3,9 +3,9 @@ import { ref } from "vue";
 import { ElMessage } from "element-plus";
 import { useRouter } from "vue-router";
 const router = useRouter();
-const routerToPage = (page)=>{
-  router.push(`/${page}`)
-}
+const routerToPage = (page) => {
+  router.push(`/${page}`);
+};
 
 import { postApi } from "../api";
 const apiNames = {
@@ -18,15 +18,13 @@ const data = ref({
   password: "",
 });
 
-const registerFailed = () => {
-  ElMessage({
-    message: "帳號已存在",
-    type: "error",
-    plain: true,
-    offset: 85,
-    duration: 1500,
-  });
-};
+const message = ref({
+  message: "",
+  type: "",
+  plain: true,
+  offset: 85,
+  duration: 1500,
+});
 
 const registerEvent = async () => {
   try {
@@ -36,8 +34,25 @@ const registerEvent = async () => {
     data.value.confirm_password = "";
     data.value.name = "";
     data.value.password = "";
+    message.value.message = "註冊成功";
+    message.value.type = "success";
+    router.push(`/login`);
+    return ElMessage(message.value);
   } catch (error) {
-    registerFailed();
+    if (
+      data.value.account === "" ||
+      data.value.password === "" ||
+      data.value.confirm_password === "" ||
+      data.value.name === ""
+    ) {
+      message.value.message = "請輸入帳號 / 密碼 / 確認密碼 / 名稱";
+      message.value.type = "warning";
+      return ElMessage(message.value);
+    } else {
+      message.value.message = "帳號或密碼已存在 / 不符合規範";
+      message.value.type = "error";
+      return ElMessage(message.value);
+    }
   }
 };
 </script>
