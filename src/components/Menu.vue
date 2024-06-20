@@ -4,18 +4,6 @@ import { Menu } from "@element-plus/icons-vue";
 const searchInput = ref("");
 const isLoggedIn = ref(false);
 
-// const props = defineProps({
-//   loginStauts: { type: String, default: "" },
-// });
-
-// watch(
-//   () => props.loginStauts,
-//   (val) => {
-//     console.log("val", val);
-//     isLoggedIn.value = val === "success" ? true : false;
-//   }
-// );
-
 const changeLoginStatus = (val) => {
   isLoggedIn.value = val === "success" ? true : false;
 };
@@ -57,38 +45,20 @@ const languageList = ref(["繁體中文", "简体中文", "English", "日本語"
 const drawer = ref(false);
 import { getApi } from "../api/index";
 
-// const searchEvent = () => {
-//   if (searchInput.value === "") return;
-//   const apiNames = {
-//     search: `/product/search/${searchInput.value}`,
-//   };
-//   getApi(apiNames.search)
-//     .then((response) => {
-//       if (response.data.product) {
-//         alert("查詢成功");
-//         localStorage.setItem(
-//           "searchData",
-//           JSON.stringify(response.data.product)
-//         );
-//         router.push("/");
-//       } else {
-//         alert("查無此產品");
-//       }
-//     })
-//     .catch((error) => {
-//       alert("查詢失敗");
-//     });
-// };
+const params = ref({ name: "all", page: 1, page_size: 20 });
 
 const emit = defineEmits(["searchEvent"]);
 const searchEvent = () => {
   if (searchInput.value === "") return;
   const apiNames = {
-    search: `/product/search/${searchInput.value}`,
+    search: `/product`,
   };
-  getApi(apiNames.search)
+  params.value.name = searchInput.value;
+
+  getApi(apiNames.search, params.value)
     .then((response) => {
       router.push("/");
+
       if (response.data.product) {
         emit("searchEvent", response.data.product);
       } else {

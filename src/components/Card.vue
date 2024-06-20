@@ -10,30 +10,35 @@ const cardList = ref({
 const apiNames = {
   product: "/product",
 };
+const params = ref({ name: "all", page: 1, page_size: 20 });
 
-onMounted(() => {
-  const searchData = JSON.parse(localStorage.getItem("searchData"));
-  if (searchData) {
-    cardList.value = searchData;
-    localStorage.removeItem("searchData");
-  } else {
-    getApi(apiNames.product)
-      .then((response) => {
-        cardList.value = response.data.product.map((product) => {
-          return {
-            name: product.name,
-            file_path: product.file_path,
-            content: product.content,
-            id: product.id,
-          };
-        });
-        pageTotal.value = cardList.value.length;
-      })
-      .catch((error) => {
-        console.error("失敗");
-      });
-  }
-});
+// onMounted(
+//   () => {
+//     // const searchData = JSON.parse(localStorage.getItem("searchData"));
+//     // if (searchData) {
+//     //   console.log(searchData);
+//     //   cardList.value = searchData;
+//     //   localStorage.removeItem("searchData");
+//     // } else {
+//     console.log(params.value);
+//     getApi(apiNames.product, params.value)
+//       .then((response) => {
+//         cardList.value = response.data.product.map((product) => {
+//           return {
+//             name: product.name,
+//             file_path: product.file_path,
+//             content: product.content,
+//             id: product.id,
+//           };
+//         });
+//         pageTotal.value = cardList.value.length;
+//       })
+//       .catch((error) => {
+//         console.error("失敗");
+//       });
+//   }
+//   // }
+// );
 
 const createCard = (data) => {
   console.log("data", data);
