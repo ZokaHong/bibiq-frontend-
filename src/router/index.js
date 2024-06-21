@@ -11,13 +11,11 @@ const router = createRouter({
       path: "/home",
       name: "home",
       component: HomeView,
-      // 主頁面 使用即時加載
     },
     {
       path: "/login",
       name: "login",
       component: () => import("@/Login.vue"),
-      // 按需加載 有需要再調用
     },
     {
       path: "/register",
@@ -61,7 +59,11 @@ const router = createRouter({
     },
   ],
   scrollBehavior(to, from, savedPosition) {
-    return { top: 0 };
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve({ top: 0, behavior: "smooth" });
+      }, 800);
+    });
   },
 });
 

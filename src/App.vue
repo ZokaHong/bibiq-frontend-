@@ -10,10 +10,10 @@ const menu = ref(null);
 function getLoginStauts(type) {
   menu.value.changeLoginStatus(type);
 }
+const homeView = ref(null);
 function searchEvent(data) {
   homeView.value.createCard(data);
 }
-const homeView = ref(null);
 </script>
 
 <template>
@@ -38,6 +38,7 @@ const homeView = ref(null);
   opacity: 0.4;
   transform: translateY(25%);
 }
+
 @media (max-width: 772px) {
   .slide-enter-active {
     transition: opacity 0.5s, transform 0.8s;

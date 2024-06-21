@@ -12,33 +12,33 @@ const apiNames = {
 };
 const params = ref({ name: "all", page: 1, page_size: 20 });
 
-// onMounted(
-//   () => {
-//     // const searchData = JSON.parse(localStorage.getItem("searchData"));
-//     // if (searchData) {
-//     //   console.log(searchData);
-//     //   cardList.value = searchData;
-//     //   localStorage.removeItem("searchData");
-//     // } else {
-//     console.log(params.value);
-//     getApi(apiNames.product, params.value)
-//       .then((response) => {
-//         cardList.value = response.data.product.map((product) => {
-//           return {
-//             name: product.name,
-//             file_path: product.file_path,
-//             content: product.content,
-//             id: product.id,
-//           };
-//         });
-//         pageTotal.value = cardList.value.length;
-//       })
-//       .catch((error) => {
-//         console.error("失敗");
-//       });
-//   }
-//   // }
-// );
+onMounted(
+  () => {
+    //     // const searchData = JSON.parse(localStorage.getItem("searchData"));
+    //     // if (searchData) {
+    //     //   console.log(searchData);
+    //     //   cardList.value = searchData;
+    //     //   localStorage.removeItem("searchData");
+    //     // } else {
+    //     console.log(params.value);
+    getApi(apiNames.product, params.value)
+      .then((response) => {
+        cardList.value = response.data.product.map((product) => {
+          return {
+            name: product.name,
+            file_path: product.file_path,
+            content: product.content,
+            id: product.id,
+          };
+        });
+        pageTotal.value = cardList.value.length;
+      })
+      .catch((error) => {
+        console.error("失敗");
+      });
+  }
+  // }
+);
 
 const createCard = (data) => {
   console.log("data", data);
@@ -46,15 +46,10 @@ const createCard = (data) => {
 };
 defineExpose({ createCard });
 
-const imgList = ref([
-  "https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg",
-]);
-const html = document.querySelector("html");
 import { useRouter } from "vue-router";
 const router = useRouter();
 const toDetail = (id) => {
   router.push(`/detail?id=${id}`);
-  html.scrollTop = 0;
 };
 const pageTotal = ref(50);
 </script>
@@ -87,7 +82,6 @@ const pageTotal = ref(50);
               ><el-image
                 :src="`${item.file_path}`"
                 style="width: 200px; height: 200px; object-fit: contain"
-                :preview-src-list="imgList"
             /></el-col>
             <el-col
               style="

@@ -50,6 +50,7 @@ const params = ref({ name: "all", page: 1, page_size: 20 });
 const emit = defineEmits(["searchEvent"]);
 const searchEvent = () => {
   if (searchInput.value === "") return;
+
   const apiNames = {
     search: `/product`,
   };
@@ -66,6 +67,7 @@ const searchEvent = () => {
       }
     })
     .catch((error) => {
+      console.log(error);
       alert("查詢失敗");
     });
 };

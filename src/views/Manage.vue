@@ -317,6 +317,7 @@ const uploadEvent = async () => {
   background-color: #fff;
   margin: 5% 0;
   padding: 2%;
+  box-sizing: border-box;
 }
 ::v-deep .el-tabs__nav {
   padding: 10px 20px;

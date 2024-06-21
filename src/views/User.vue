@@ -33,20 +33,22 @@ import { ElDivider } from "element-plus";
 const apiNames = {
   order: "/order",
 };
-const data = ref([
-  {
-    main: {
-      id: "",
-      date: "",
-      user_name: "",
-    },
-    sub: {},
+const data = ref({
+  main: {
+    id: "",
+    date: "",
+    user_name: "",
   },
-]);
-
+  sub: {},
+});
+const params = ref({ page: 1, page_size: 20, end_date: "", start_date: "" });
 console.log(data.value);
 
-getApi(apiNames.order).then((response) => {
+const token = localStorage.getItem("token");
+
+getApi(apiNames.order, params.value, {
+  headers: { Authorization: `Bearer ${token}` },
+}).then((response) => {
   console.log(response);
 });
 </script>
@@ -187,11 +189,11 @@ getApi(apiNames.order).then((response) => {
   display: flex;
   justify-content: start;
   align-content: center;
-  font: 400 28px Helvetica;
+  font: 400 24px Helvetica;
   padding: 5px 10px;
 }
 .user-header .el-icon {
-  font-size: 30px;
+  font-size: 28px;
 }
 
 @media (max-width: 772px) {
