@@ -22,19 +22,21 @@ const message = ref({
   offset: 85,
   duration: 1500,
 });
-
-const emit = defineEmits(["getLoginStauts"]);
+const emit = defineEmits(["getLoginStauts", "loginPermissions"]);
 
 const loginEvent = () => {
   postApi(apiNames.login, data.value)
     .then((response) => {
       localStorage.setItem("token", response.data.token);
+      localStorage.setItem("permissions", response.data.permissions);
       data.value.account = "";
       data.value.password = "";
       message.value.message = "登入成功";
       message.value.type = "success";
       routerToPage("home");
       emit("getLoginStauts", message.value.type);
+      emit("loginPermissions", response.data.permissions);
+
       return ElMessage(message.value);
     })
     .catch((error) => {

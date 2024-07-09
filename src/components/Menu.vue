@@ -1,15 +1,32 @@
 <script setup>
-import { ref, watch } from "vue";
+import { ref, onMounted } from "vue";
 import { Menu } from "@element-plus/icons-vue";
 const searchInput = ref("");
 const isLoggedIn = ref(false);
+const permissions = ref(null);
 
+const apiNames = {
+  search: "/product",
+  logout: "/user/logout",
+};
+const loginPermissions = (val) => {
+  permissions.value = val;
+};
 const changeLoginStatus = (val) => {
   isLoggedIn.value = val === "success" ? true : false;
 };
-defineExpose({ changeLoginStatus });
+defineExpose({ changeLoginStatus, loginPermissions });
 
 import { ElMessage, ElMessageBox } from "element-plus";
+
+const token = localStorage.getItem("token");
+const getPermissions = parseInt(localStorage.getItem("permissions"));
+onMounted(() => {
+  if (token) {
+    isLoggedIn.value = true;
+    permissions.value = getPermissions;
+  }
+});
 
 const logoutEvent = () => {
   ElMessageBox.confirm("<h2>確定要登出?</h2>", {
@@ -22,13 +39,18 @@ const logoutEvent = () => {
   })
     .then(() => {
       isLoggedIn.value = false;
+      getApi(apiNames.logout, null, { Authorization: `Bearer ${token}` });
+      permissions.value = null;
       localStorage.removeItem("token");
+      localStorage.removeItem("permissions");
       ElMessage({
         message: "登出成功",
         type: "success",
       });
+      router.push("/");
     })
-    .catch(() => {
+    .catch((error) => {
+      console.log(error);
       ElMessage({
         message: "登出失敗",
         type: "error",
@@ -41,7 +63,7 @@ function changeLanguage(item) {
   language.value = item;
 }
 
-const languageList = ref(["繁體中文", "简体中文", "English", "日本語"]);
+// const languageList = ref(["繁體中文", "简体中文", "English", "日本語"]);
 const drawer = ref(false);
 import { getApi } from "../api/index";
 
@@ -51,9 +73,6 @@ const emit = defineEmits(["searchEvent"]);
 const searchEvent = () => {
   if (searchInput.value === "") return;
 
-  const apiNames = {
-    search: `/product`,
-  };
   params.value.name = searchInput.value;
 
   getApi(apiNames.search, params.value)
@@ -73,6 +92,7 @@ const searchEvent = () => {
 };
 
 import { useRouter } from "vue-router";
+import axios from "axios";
 const router = useRouter();
 
 function routerToPage(page) {
@@ -83,6 +103,7 @@ function closeDrawer(page) {
   routerToPage(page);
   drawer.value = false;
 }
+
 const logoutEventRwd = () => {
   ElMessageBox.confirm("<h2>確定要登出?</h2>", {
     confirmButtonText: "確定",
@@ -108,6 +129,9 @@ const logoutEventRwd = () => {
       });
     });
 };
+const isUser = ref(false);
+
+const isManager = ref(false);
 </script>
 <template>
   <el-container>
@@ -143,8 +167,18 @@ const logoutEventRwd = () => {
             </el-col>
 
             <el-col :span="6">
-              <el-button text @click="routerToPage('user')">使用者</el-button>
-              <el-button text @click="routerToPage('manage')">管理者</el-button>
+              <el-button
+                text
+                v-show="permissions === 0"
+                @click="routerToPage('user')"
+                >使用者</el-button
+              >
+              <el-button
+                text
+                v-show="permissions === 1"
+                @click="routerToPage('manage')"
+                >管理者</el-button
+              >
             </el-col>
             <el-col :span="4" v-if="!isLoggedIn">
               <el-button style="width: 60%" text @click="routerToPage('login')">
@@ -207,7 +241,7 @@ const logoutEventRwd = () => {
                 style="width: 50%"
                 placeholder="Search"
               />
-              <el-button style="width: 30px" text>
+              <el-button style="width: 30px" text @click="searchEvent">
                 <el-icon size="25px"><Search /></el-icon>
               </el-button>
             </div>

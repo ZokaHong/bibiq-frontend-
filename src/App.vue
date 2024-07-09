@@ -10,6 +10,9 @@ const menu = ref(null);
 function getLoginStauts(type) {
   menu.value.changeLoginStatus(type);
 }
+const loginPermissions = (type) => {
+  menu.value.loginPermissions(type);
+};
 const homeView = ref(null);
 function searchEvent(data) {
   homeView.value.createCard(data);
@@ -23,6 +26,7 @@ function searchEvent(data) {
       <component
         :is="Component"
         @getLoginStauts="getLoginStauts"
+        @loginPermissions="loginPermissions"
         ref="homeView"
       />
     </transition>

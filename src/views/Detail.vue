@@ -3,7 +3,7 @@ import { ref, onMounted } from "vue";
 const count = ref("");
 import { useRoute, useRouter } from "vue-router";
 const route = useRoute();
-const id = parseInt(route.query.id);
+const routeId = parseInt(route.query.id);
 const router = useRouter();
 
 const isLoading = ref(false);
@@ -12,7 +12,8 @@ import { getApi, postApi } from "../api/index";
 import { ElMessage } from "element-plus";
 
 const apiNames = {
-  product: `/product/${id}`,
+  product: `/product/${routeId}`,
+  shopping_cart: `/shopping_cart`,
 };
 
 const detailList = ref({
@@ -32,9 +33,15 @@ const message = ref({
   duration: 1500,
 });
 
+const data = ref({
+  product_id: 0,
+  quantity: 0,
+});
+
 onMounted(() => {
   getApi(apiNames.product)
     .then((response) => {
+      console.log(response.data.product);
       [detailList.value] = response.data.product;
       isLoading.value = true;
     })
@@ -43,24 +50,21 @@ onMounted(() => {
       isLoading.value = true;
     });
 });
+
+const token = localStorage.getItem("token");
 const buyNowEvent = () => {
   if (count.value === "") {
     message.value.message = "請選擇數量";
     message.value.type = "warning";
     return ElMessage(message.value);
   }
+  postApi(apiNames.shopping_cart, data.value, {
+    Authorization: `Bearer ${token}`,
+  }).then((response) => {
+    console.log(response);
+  });
   router.push("/shoppingcart");
 };
-
-// const buyLaterEvent = () => {
-//   ElMessage({
-//     message: "已加入購物車",
-//     type: "success",
-//     plain: true,
-//     offset: 85,
-//     duration: 1500,
-//   });
-// };
 
 function buyLaterEvent() {
   if (count.value === "") {

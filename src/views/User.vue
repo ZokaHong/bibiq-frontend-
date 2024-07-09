@@ -34,23 +34,34 @@ const apiNames = {
   order: "/order",
 };
 const data = ref({
-  main: {
-    id: "",
-    date: "",
-    user_name: "",
+  order: {
+    address: "台中中區",
+    amount: "",
+    id: "1",
+    user_name: "小張",
+    user_account: "qaz12345",
+    order_detail: [
+      {
+        product_name: "番茄",
+        quantity: "5",
+      },
+    ],
   },
-  sub: {},
+  status: "",
 });
+
 const params = ref({ page: 1, page_size: 20, end_date: "", start_date: "" });
 console.log(data.value);
 
 const token = localStorage.getItem("token");
 
-getApi(apiNames.order, params.value, {
-  headers: { Authorization: `Bearer ${token}` },
-}).then((response) => {
-  console.log(response);
-});
+getApi(apiNames.order, params.value, { Authorization: `Bearer ${token}` })
+  .then((response) => {
+    console.log(response);
+  })
+  .catch((error) => {
+    console.log("尚未登入");
+  });
 </script>
 <template>
   <el-container>
@@ -106,8 +117,8 @@ getApi(apiNames.order, params.value, {
         >
           <template #header="{ close, titleClass }">
             <el-row>
-              <el-col :class="titleClass" :span="4"><h3>訂單明細</h3></el-col>
-              <el-col
+              <el-col :class="titleClass" :span="6"><h3>訂單明細</h3></el-col>
+              <!-- <el-col
                 :span="6"
                 style="
                   display: flex;
@@ -119,8 +130,8 @@ getApi(apiNames.order, params.value, {
                 <span style="text-align: start"
                   >訂單日期: 2025-01-01 10:30</span
                 >
-              </el-col>
-              <el-col :span="2" :offset="12">
+              </el-col> -->
+              <el-col :span="2" :offset="16">
                 <el-icon @click="close" size="30px" style="cursor: pointer"
                   ><Close
                 /></el-icon>
@@ -130,23 +141,19 @@ getApi(apiNames.order, params.value, {
             <el-row>
               <el-col
                 ><el-row>
-                  <el-col :span="4">商品</el-col>
-                  <el-col :span="4">數量</el-col>
-                  <el-col :span="4">單價</el-col>
-                  <el-col :span="4">折扣</el-col>
-                  <el-col :span="4">備註</el-col>
-                  <el-col :span="4">總金額</el-col>
+                  <el-col :span="6">商品</el-col>
+                  <el-col :span="6">數量</el-col>
+                  <el-col :span="6">單價</el-col>
+                  <el-col :span="6">總金額</el-col>
                 </el-row></el-col
               >
               <el-divider />
-              <el-col
+              <el-col v-for="item in data.order.order_detail"
                 ><el-row>
-                  <el-col :span="4">玉米</el-col>
-                  <el-col :span="4">1</el-col>
-                  <el-col :span="4">30</el-col>
-                  <el-col :span="4"></el-col>
-                  <el-col :span="4"></el-col>
-                  <el-col :span="4">30</el-col>
+                  <el-col :span="6">{{ item.product_name }}</el-col>
+                  <el-col :span="6">{{ item.quantity }}</el-col>
+                  <el-col :span="6">#30</el-col>
+                  <el-col :span="6">#30</el-col>
                 </el-row></el-col
               >
               <el-divider />
