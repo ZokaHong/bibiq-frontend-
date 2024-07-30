@@ -1,6 +1,5 @@
 <script setup>
-import { ref, onMounted } from "vue";
-const count = ref("");
+import { ref, onMounted, toRaw } from "vue";
 import { useRoute, useRouter } from "vue-router";
 const route = useRoute();
 const routeId = parseInt(route.query.id);
@@ -15,6 +14,7 @@ const apiNames = {
   product: `/product/${routeId}`,
   shopping_cart: `/shopping_cart`,
 };
+const token = localStorage.getItem("token");
 
 const detailList = ref({
   file_path: "",
@@ -33,16 +33,22 @@ const message = ref({
   duration: 1500,
 });
 
-const data = ref({
-  product_id: 0,
-  quantity: 0,
+const shopping_cart = ref({
+  product_id: "",
+  quantity: "",
 });
 
+let getShoppingCart = null;
 onMounted(() => {
+  getShoppingCart = JSON.parse(localStorage.getItem("shopping_cart"));
+  if (getShoppingCart) {
+    console.log(getShoppingCart);
+  }
+
   getApi(apiNames.product)
     .then((response) => {
-      console.log(response.data.product);
       [detailList.value] = response.data.product;
+      shopping_cart.value.product_id = response.data.product[0].id;
       isLoading.value = true;
     })
     .catch((error) => {
@@ -51,37 +57,54 @@ onMounted(() => {
     });
 });
 
-const token = localStorage.getItem("token");
-const buyNowEvent = () => {
-  if (count.value === "") {
+const addToShoppingCart = () => {
+  let idExist = null
+  if(getShoppingCart !== null){
+    idExist = getShoppingCart.some(
+      (item) => item.product_id === detailList.value.id
+    );
+    console.log(idExist);
+  }
+
+  if (shopping_cart.value.quantity === "") {
     message.value.message = "請選擇數量";
     message.value.type = "warning";
     return ElMessage(message.value);
+  } else if (getShoppingCart !== null && !idExist) {
+    console.log(toRaw(shopping_cart.value));
+    getShoppingCart.push(toRaw(shopping_cart.value));
+    console.log(getShoppingCart);
+    localStorage.setItem("shopping_cart", JSON.stringify(getShoppingCart));
+  } else if (getShoppingCart !== null && idExist) {
+    for (let item of getShoppingCart) {
+      if (item.product_id === shopping_cart.value.product_id) {
+        item.quantity = shopping_cart.value.quantity;
+        break;
+      }
+    }
+    localStorage.setItem("shopping_cart", JSON.stringify(getShoppingCart));
+  } else {
+    localStorage.setItem(
+      "shopping_cart",
+      JSON.stringify([shopping_cart.value])
+    );
+    postApi(apiNames.shopping_cart, shopping_cart.value, {
+      Authorization: `Bearer ${token}`,
+    }).then((response) => {
+      console.log(response);
+    });
   }
-  postApi(apiNames.shopping_cart, data.value, {
-    Authorization: `Bearer ${token}`,
-  }).then((response) => {
-    console.log(response);
-  });
-  router.push("/shoppingcart");
 };
 
+const buyNowEvent = () => {
+  addToShoppingCart();
+  router.push("/shoppingcart");
+};
 function buyLaterEvent() {
-  if (count.value === "") {
-    message.value.message = "請選擇數量";
-    message.value.type = "warning";
-    return ElMessage(message.value);
-  }
+  addToShoppingCart();
 
-  const apiStatus = "error";
-  if (apiStatus === "success") {
-    message.value.message = "已成功加入購物車";
-    message.value.type = "success";
-  } else {
-    message.value.message = "加入購物車失敗";
-    message.value.type = "error";
-  }
-
+  message.value.message = "已成功加入購物車";
+  message.value.type = "success";
   ElMessage(message.value);
 }
 </script>
@@ -171,7 +194,7 @@ function buyLaterEvent() {
               <el-col :span="24" :lg="8" style="margin: 10px 0">
                 <span>數量: </span>
                 <el-select
-                  v-model="count"
+                  v-model="shopping_cart.quantity"
                   filterable
                   no-match-text="無符合數量"
                   placeholder="請選擇"
@@ -198,7 +221,7 @@ function buyLaterEvent() {
                       font-style: italic;
                       margin-left: 20px;
                     "
-                    >{{ detailList.price * count }}</span
+                    >{{ detailList.price * shopping_cart.quantity }}</span
                   >
                   <span style="font: 700 14px Helvetica; margin-left: 3px"
                     >元</span

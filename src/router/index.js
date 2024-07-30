@@ -62,7 +62,7 @@ const router = createRouter({
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         resolve({ top: 0, behavior: "smooth" });
-      }, 800);
+      }, 600);
     });
   },
 });

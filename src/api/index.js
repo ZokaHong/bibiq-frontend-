@@ -7,3 +7,9 @@ export function getApi(apiName, params, headers) {
 export function postApi(apiName, data, headers) {
   return axios.post(`${apiBaseUrl}${apiName}`, data, { headers });
 }
+export function putApi(apiName, data, headers){
+  return axios.put(`${apiBaseUrl}${apiName}`, data, { headers });
+}
+export function deleteApi(apiName, data, headers){
+  return axios.delete(`${apiBaseUrl}${apiName}`, { data, headers });
+}

@@ -12,7 +12,7 @@ defineExpose({ createCard });
 
 <template>
   <div>
-    <!-- <Carousel /> -->
+    <Carousel />
     <Card ref="card" />
   </div>
 </template>
