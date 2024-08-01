@@ -16,7 +16,7 @@ const backTop = () => {
     <el-footer>
       <el-row class="footer-row">
         <el-link class="backBar" @click="backTop" :underline="false">
-          <span>回頁首</span>
+          <span>Back to Top</span>
         </el-link>
         <el-link class="backBarRwd" @click="backTop" :underline="false">
           <span>
@@ -28,14 +28,7 @@ const backTop = () => {
         >
         <el-col :xs="12" :md="8" :span="8"><span>@ Copyright</span></el-col>
         <el-col :xs="24" :md="8" :span="8">
-          <div
-            style="
-              display: flex;
-              justify-content: center;
-              position: relative;
-              top: -5px;
-            "
-          >
+          <div style="display: flex; justify-content: center">
             <el-link
               class="social-link"
               v-for="social in socials"
@@ -70,17 +63,21 @@ const backTop = () => {
   display: flex;
   justify-content: center;
   align-items: end;
-  width: 30%;
-  height: 120%;
+  width: 24%;
+  height: 140%;
   color: black;
   background-color: rgba(109, 179, 175, 0.7);
   position: absolute;
-  top: -120%;
-  left: 35%;
+  top: -140%;
+  left: 38%;
   clip-path: ellipse(50% 50% at 50% 100%);
   z-index: 2;
+  transition: .5s;
+  box-shadow: 0 0 0 1px #000;
 }
 .backBar span {
+  position: relative;
+  top: -10px;
   letter-spacing: 5px;
   font: 700 24px Helvetica;
 }
@@ -119,6 +116,7 @@ const backTop = () => {
   margin: 0 15px;
   transition: 0.5s;
   transform: rotate(-30deg) skewX(15deg);
+  position: relative;
 }
 .social::before {
   content: "";

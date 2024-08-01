@@ -38,13 +38,10 @@ const shopping_cart = ref({
   quantity: "",
 });
 
-let getShoppingCart = null;
+let getShoppingCart = [];
 onMounted(() => {
   getShoppingCart = JSON.parse(localStorage.getItem("shopping_cart"));
-  if (getShoppingCart) {
-    console.log(getShoppingCart);
-  }
-
+  console.log(getShoppingCart);
   getApi(apiNames.product)
     .then((response) => {
       [detailList.value] = response.data.product;
@@ -58,8 +55,8 @@ onMounted(() => {
 });
 
 const addToShoppingCart = () => {
-  let idExist = null
-  if(getShoppingCart !== null){
+  let idExist = null;
+  if (getShoppingCart !== null) {
     idExist = getShoppingCart.some(
       (item) => item.product_id === detailList.value.id
     );
@@ -71,11 +68,13 @@ const addToShoppingCart = () => {
     message.value.type = "warning";
     return ElMessage(message.value);
   } else if (getShoppingCart !== null && !idExist) {
+    console.log("不存在");
     console.log(toRaw(shopping_cart.value));
     getShoppingCart.push(toRaw(shopping_cart.value));
     console.log(getShoppingCart);
     localStorage.setItem("shopping_cart", JSON.stringify(getShoppingCart));
   } else if (getShoppingCart !== null && idExist) {
+    console.log("存在");
     for (let item of getShoppingCart) {
       if (item.product_id === shopping_cart.value.product_id) {
         item.quantity = shopping_cart.value.quantity;
@@ -98,11 +97,16 @@ const addToShoppingCart = () => {
 
 const buyNowEvent = () => {
   addToShoppingCart();
+  if (shopping_cart.value.quantity === "") {
+    return;
+  }
   router.push("/shoppingcart");
 };
 function buyLaterEvent() {
   addToShoppingCart();
-
+  if (shopping_cart.value.quantity === "") {
+    return;
+  }
   message.value.message = "已成功加入購物車";
   message.value.type = "success";
   ElMessage(message.value);
@@ -168,7 +172,7 @@ function buyLaterEvent() {
               >
               </el-image>
               <el-link href="#" :underline="false" style="margin-left: 10px">
-                <h3>3Q鍋具</h3></el-link
+                <h3>3Q</h3></el-link
               >
             </div>
           </el-col>

@@ -1,5 +1,11 @@
 <script setup>
 import { ref } from "vue";
+import { useRouter } from "vue-router";
+const router = useRouter();
+
+const goToHomePage = () => {
+  router.push("/");
+};
 
 const tableData = ref([
   {
@@ -67,7 +73,7 @@ getApi(apiNames.order, params.value, { Authorization: `Bearer ${token}` })
   <el-container>
     <el-row class="user-row">
       <el-col class="user-header">
-        <el-link :underline="false" href="#">
+        <el-link :underline="false" @click="goToHomePage">
           <el-icon><Back /></el-icon>
         </el-link>
         <span style="margin-left: 20px">訂單詳情</span>

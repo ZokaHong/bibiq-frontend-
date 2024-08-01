@@ -76,7 +76,6 @@ const loginEvent = () => {
               <el-input
                 v-model="data.account"
                 type="text"
-                onkeyup="value=value.replace(/[\W]/g,'') "
                 placeholder="帳號"
                 clearable
               />
@@ -86,7 +85,6 @@ const loginEvent = () => {
                 v-model="data.password"
                 type="password"
                 placeholder="密碼"
-                onkeyup="value=value.replace(/[\W]/g,'') "
                 clearable
                 show-password
               />

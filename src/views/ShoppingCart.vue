@@ -2,6 +2,8 @@
 import { onMounted, ref } from "vue";
 import { getApi, postApi, deleteApi } from "../api/index";
 import { ElMessage } from "element-plus";
+import { useRouter } from "vue-router";
+const router = useRouter()
 const apiNames = {
   shopping_cart: `/shopping_cart`,
   shopping_cart_id: (index) => `/shopping_cart/${index}`,
@@ -62,7 +64,14 @@ onMounted(() => {
   console.log(data.value);
 });
 
-const getShoppingCart = JSON.parse(localStorage.getItem("shopping_cart"));
+const goToHomePage = ()=>{
+  router.push("/")
+}
+
+
+let getShoppingCart = null;
+
+getShoppingCart = JSON.parse(localStorage.getItem("shopping_cart"));
 
 const deleteItem = (index) => {
   if (getShoppingCart) {
@@ -73,6 +82,9 @@ const deleteItem = (index) => {
     console.log(deletedShoppingCart);
     localStorage.setItem("shopping_cart", JSON.stringify(deletedShoppingCart));
     data.value = deletedShoppingCart
+    if(deletedShoppingCart.length === 0){
+      localStorage.removeItem("shopping_cart");
+    }
 
     // deleteApi(apiNames.shopping_cart_id(index), data);
   }
@@ -90,7 +102,7 @@ const buyEvent = () => {
   <el-container>
     <el-row class="shoppingCart-row">
       <el-col :span="24" class="shoppingCart-header">
-        <el-link :underline="false" href="#">
+        <el-link :underline="false" @click="goToHomePage">
           <el-icon><Back /></el-icon>
         </el-link>
         <span style="margin-left: 20px">購物車</span>
@@ -174,7 +186,6 @@ const buyEvent = () => {
           </el-col>
         </el-row>
       </el-col>
-
       <el-col :span="24" class="shoppingCart-footer">
         <el-row>
           <el-col :xs="{ span: 8, offset: 0 }" :span="8" :offset="4">
@@ -223,7 +234,7 @@ const buyEvent = () => {
 .checkbox-button::after {
   content: "✔";
   color: #fff;
-  font-size: 16px;
+  font-size: 18px;
 }
 .selectAll-button {
   box-sizing: content-box;
@@ -277,7 +288,7 @@ const buyEvent = () => {
 .shoppingList {
   padding: 20px 0;
   margin-bottom: 20px;
-  transition: background-color 1s;
+  transition: background-color 0.8s, border 0.8s;
   border: 2px outset transparent;
 }
 .active {
@@ -291,13 +302,12 @@ const buyEvent = () => {
 }
 
 .shoppingCart-footer {
-  background-color: #7be0b1;
+  background-color: #96e7c1;
   border: 2px solid #353535;
   width: 100%;
   position: absolute;
   bottom: 0;
   left: 0;
-  padding: 0 2%;
 }
 .footer-items {
   text-align: center;

@@ -1,9 +1,12 @@
 <script setup>
 const bannerImageList = [
-  "src/assets/chiikawa.png",
-  "src/assets/chiikawa1.png",
-  "src/assets/chiikawa2.png",
-  "src/assets/chiikawa3.png",
+  // "src/assets/chiikawa.png",
+  // "src/assets/chiikawa1.png",
+  // "src/assets/chiikawa2.png",
+  // "src/assets/chiikawa3.png",
+  "src/assets/BBQ1.jpg",
+  "src/assets/BBQ2.jpg",
+  "src/assets/BBQ3.jpg"
 ];
 </script>
 <template>

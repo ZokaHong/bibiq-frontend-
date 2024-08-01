@@ -97,8 +97,8 @@ const pageTotal = ref(50);
               style="display: flex; align-items: center; justify-content: end"
               :span="8"
               :offset="16"
-              ><el-button @click="toDetail(item.id)"
-                >查看更多</el-button
+              ><el-button class="viewMoreButton" @click="toDetail(item.id)"
+                ><span class="viewMore"></span></el-button
               ></el-col
             >
           </el-row>
@@ -134,5 +134,47 @@ const pageTotal = ref(50);
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.viewMoreButton {
+  box-sizing: content-box;
+  padding: 2px 8px;
+  border: 1px inset #000;
+  color: rgb(250, 88, 29);
+  transition: 1.2s;
+  background-color: rgba(241, 241, 241, 0.8);
+}
+.viewMore{
+  display: block;
+  width: 100px;
+  height: 30px;
+  position: relative;
+  overflow: hidden;
+}
+.viewMoreButton:hover{
+  background-color: rgba(241, 82, 82, 0.8);
+}
+.viewMoreButton:hover .viewMore::before{
+  transform: translateX(-120%);
+}
+.viewMoreButton:hover .viewMore::after{
+  transform: translateX(-150%);
+}
+.viewMore::before{
+  font: 600 20px "";
+  content: '查看更多';
+  width: 100%;
+  position: absolute; 
+  left: 0%;
+  transition: .8s;
+}
+.viewMore::after{
+  content: 'More →';
+  width: 100%;
+  font: 700 24px "";
+  position: absolute; 
+  left: 150%;
+  color: #000;
+  transition: 1s;
+  transform: translateX(0%);
 }
 </style>
