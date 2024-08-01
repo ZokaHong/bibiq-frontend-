@@ -139,7 +139,7 @@ const pageTotal = ref(50);
   box-sizing: content-box;
   padding: 2px 8px;
   border: 1px inset #000;
-  color: rgb(250, 88, 29);
+  color: rgb(241, 85, 46);
   transition: 1.2s;
   background-color: rgba(241, 241, 241, 0.8);
 }

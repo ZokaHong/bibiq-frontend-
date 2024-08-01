@@ -89,6 +89,12 @@ const searchEvent = () => {
       console.log(error);
       alert("查詢失敗");
     });
+    setTimeout(()=>{
+      window.scrollTo({
+          top: 400,
+          behavior: 'smooth'
+        });
+    },1000)
 };
 
 import { useRouter } from "vue-router";
@@ -143,7 +149,7 @@ const isManager = ref(false);
               <img class="logo" src="../assets/vue.svg" alt="" />
             </el-col>
             <el-col :span="16" class="title-col">
-              <h3 style="user-select: none">bibi-Q</h3>
+              <span class="bibiQ-title">bibi-Q</span>
             </el-col>
           </el-row>
         </el-col>
@@ -154,14 +160,10 @@ const isManager = ref(false);
               <el-input
                 type="text"
                 v-model="searchInput"
-                style="width: 60%"
+                style="width: 60%;height:35px;font-size: 20px;"
                 placeholder="Search"
               />
-              <el-button
-                style="width: 35px; margin-left: 10px"
-                text
-                @click="searchEvent"
-              >
+              <el-button class="search-button" text @click="searchEvent">
                 <el-icon size="25px"><Search /></el-icon>
               </el-button>
             </el-col>
@@ -181,22 +183,26 @@ const isManager = ref(false);
               >
             </el-col>
             <el-col :span="4" v-if="!isLoggedIn">
-              <el-button style="width: 60%" text @click="routerToPage('login')">
+              <el-button
+                class="loginButton"
+                text
+                @click="routerToPage('login')"
+              >
                 <span>登入</span>
               </el-button>
             </el-col>
             <el-col :span="4" v-else>
-              <el-button style="width: 60%" text @click="logoutEvent">
+              <el-button class="logoutButton" text @click="logoutEvent">
                 <span>登出</span>
               </el-button>
             </el-col>
             <el-col :span="4">
               <el-button
-                style="width: 35px"
+                class="shoppingCartButton"
                 text
                 @click="routerToPage('shoppingCart')"
               >
-                <el-icon size="30px"><ShoppingCart /></el-icon>
+                <el-icon size="25px" style="color: rgba(0, 0, 0, 0.6);"><ShoppingCart /></el-icon>
               </el-button>
             </el-col>
             <!-- <el-col :span="5">
@@ -238,10 +244,10 @@ const isManager = ref(false);
               <el-input
                 type="text"
                 v-model="searchInput"
-                style="width: 50%"
+                style="width: 75%"
                 placeholder="Search"
               />
-              <el-button style="width: 30px" text @click="searchEvent">
+              <el-button class="search-button" text @click="searchEvent">
                 <el-icon size="25px"><Search /></el-icon>
               </el-button>
             </div>
@@ -287,7 +293,8 @@ const isManager = ref(false);
 .el-header {
   width: 100%;
   height: 100%;
-  background-color: rgb(139, 197, 197);
+  background-color: rgba(235, 129, 103, 0.8);
+  box-shadow: 0 0 0 2px #000;
 }
 
 .el-row {
@@ -303,7 +310,14 @@ const isManager = ref(false);
   height: 35px;
 }
 .title-col {
-  text-align: start;
+  height: 75px;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+}
+.bibiQ-title{
+  font: 600 28px '';
+  user-select: none
 }
 .nav-box {
   align-items: center;
@@ -311,6 +325,44 @@ const isManager = ref(false);
 .toolsMenu {
   align-items: center;
 }
+.search-button {
+  box-sizing: content-box;
+  margin-left: 10px;
+  width: 25px;
+  height: 25px;
+  padding: 5px;
+  transition: .5s;
+}
+.search-button:hover {
+  background-color: #000000;
+}
+
+.loginButton,
+.logoutButton {
+  width: 60%;
+  font: 600 20px "";
+  color: rgba(0, 0, 0, 0.6);
+  background-color: rgba(245, 245, 245, 0.8) !important;
+  box-shadow: 0 0 0 2px #000;
+  transition: 0.5s;
+}
+.loginButton:hover,
+.logoutButton:hover {
+  color: rgb(245, 245, 245);
+  background-color: rgba(235, 63, 106, 0.8) !important;
+}
+.shoppingCartButton {
+  box-sizing: content-box;
+  width: 25px;
+  height: 25px;
+  clip-path: circle(50% at 50% 50%);
+  padding: 10px;
+  transition: 0.5s;
+}
+.shoppingCartButton:hover {
+  background-color: rgba(245, 245, 245, 0.8);
+}
+
 .dropdown-box {
   padding: 4px 10px;
 }

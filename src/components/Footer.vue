@@ -24,9 +24,9 @@ const backTop = () => {
           </span>
         </el-link>
         <el-col :xs="12" :md="8" :span="8"
-          ><router-link to="/contact">聯絡我們</router-link></el-col
+          ><router-link class="footer-text" to="/contact">聯絡我們</router-link></el-col
         >
-        <el-col :xs="12" :md="8" :span="8"><span>@ Copyright</span></el-col>
+        <el-col :xs="12" :md="8" :span="8"><span class="footer-text">@ Copyright</span></el-col>
         <el-col :xs="24" :md="8" :span="8">
           <div style="display: flex; justify-content: center">
             <el-link
@@ -73,7 +73,6 @@ const backTop = () => {
   clip-path: ellipse(50% 50% at 50% 100%);
   z-index: 2;
   transition: .5s;
-  box-shadow: 0 0 0 1px #000;
 }
 .backBar span {
   position: relative;
@@ -107,7 +106,9 @@ const backTop = () => {
     display: none;
   }
 }
-
+.footer-text{
+  font: 600 20px '';
+}
 .social {
   width: 25px;
   height: 25px;
