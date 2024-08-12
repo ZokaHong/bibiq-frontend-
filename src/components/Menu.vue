@@ -316,7 +316,7 @@ const isManager = ref(false);
   align-items: center;
 }
 .bibiQ-title{
-  font: 600 28px '';
+  font: 600 26px '';
   user-select: none
 }
 .nav-box {
